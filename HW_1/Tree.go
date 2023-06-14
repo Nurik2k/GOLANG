@@ -78,6 +78,7 @@ func DirTree(out io.Writer, path string, printFiles bool) (err error) {
 	return
 }
 func main() {
+
 	out := os.Stdout
 	if !(len(os.Args) == 2 || len(os.Args) == 3) {
 		panic("use run Tree.go . -f")
