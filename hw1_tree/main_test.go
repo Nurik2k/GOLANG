@@ -10,35 +10,35 @@ const testFullResult = `├───project
 │	└───gopher.png (70372b)
 ├───static
 │	├───a_lorem
-│	│	├───dolor.txt (empty)
+│	│	├───dolor.txt (0)
 │	│	├───gopher.png (70372b)
 │	│	└───ipsum
 │	│		└───gopher.png (70372b)
 │	├───css
 │	│	└───body.css (28b)
-│	├───empty.txt (empty)
+│	├───empty.txt (0)
 │	├───html
 │	│	└───index.html (57b)
 │	├───js
 │	│	└───site.js (10b)
 │	└───z_lorem
-│		├───dolor.txt (empty)
+│		├───dolor.txt (0)
 │		├───gopher.png (70372b)
 │		└───ipsum
 │			└───gopher.png (70372b)
 ├───zline
-│	├───empty.txt (empty)
+│	├───empty.txt (0)
 │	└───lorem
-│		├───dolor.txt (empty)
+│		├───dolor.txt (0)
 │		├───gopher.png (70372b)
 │		└───ipsum
 │			└───gopher.png (70372b)
-└───zzfile.txt (empty)
+└───zzfile.txt (0)
 `
 
 func TestTreeFull(t *testing.T) {
 	out := new(bytes.Buffer)
-	err := DirTree(out, ".", true)
+	err := dirTree(out, "testdata", false)
 	if err != nil {
 		t.Errorf("test for OK Failed - error")
 	}
@@ -64,7 +64,7 @@ const testDirResult = `├───project
 
 func TestTreeDir(t *testing.T) {
 	out := new(bytes.Buffer)
-	err := DirTree(out, ".", false)
+	err := dirTree(out, "testdata", false)
 	if err != nil {
 		t.Errorf("test for OK Failed - error")
 	}

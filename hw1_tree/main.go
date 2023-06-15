@@ -54,7 +54,7 @@ func PrintTree(out io.Writer, nodes []TreeNode, parentPrefix string) {
 	var (
 		lastIndex = len(nodes) - 1
 		prefix    = "├───"
-		_prefix   = "|\t"
+		_prefix   = "│\t"
 	)
 	for i, node := range nodes {
 		if i == lastIndex {
@@ -67,7 +67,7 @@ func PrintTree(out io.Writer, nodes []TreeNode, parentPrefix string) {
 		}
 	}
 }
-func DirTree(out io.Writer, path string, printFiles bool) (err error) {
+func dirTree(out io.Writer, path string, printFiles bool) (err error) {
 	nodes, err := GetNodes(path, printFiles)
 	if err != nil {
 		return
@@ -83,7 +83,7 @@ func main() {
 	}
 	path := os.Args[1]
 	printFiles := len(os.Args) == 3 && os.Args[2] == "-f"
-	err := DirTree(out, path, printFiles)
+	err := dirTree(out, path, printFiles)
 	if err != nil {
 		panic(err.Error())
 	}
