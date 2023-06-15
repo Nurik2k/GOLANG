@@ -38,7 +38,7 @@ const testFullResult = `├───project
 
 func TestTreeFull(t *testing.T) {
 	out := new(bytes.Buffer)
-	err := dirTree(out, "testdata", false)
+	err := dirTree(out, "testdata", true)
 	if err != nil {
 		t.Errorf("test for OK Failed - error")
 	}
