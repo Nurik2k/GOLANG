@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="31bceefe-0bb9-4b08-b713-b25edf22577f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/GOLANG.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/Tree.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/Tree_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/hw1.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/main.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/main_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/project/file.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/project/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/a_lorem/dolor.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/a_lorem/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/a_lorem/ipsum/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/css/body.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/empty.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/html/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/js/site.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/z_lorem/dolor.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/z_lorem/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/static/z_lorem/ipsum/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/zline/empty.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/zline/lorem/dolor.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/zline/lorem/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/zline/lorem/ipsum/gopher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../HW_1/hw1_tree/testdata/zzfile.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/hw1_tree.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/main_test.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2REh5xs3b64HHCJgRQX4nIr9uaM" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "S:/GOLANG/hw1_tree",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
+  }
+}]]></component>
+  <component name="RunManager" selected="Go Test.TestTreeDir in main_test.go">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="hw1_tree" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestTreeDir in main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="hw1_tree" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main_test.go" />
+      <framework value="gotest" />
+      <pattern value="^\QTestTreeDir\E$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Test.TestTreeDir in main_test.go" />
+        <item itemvalue="Go Build.go build main.go" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>

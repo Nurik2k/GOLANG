@@ -67,7 +67,7 @@ func PrintTree(out io.Writer, nodes []TreeNode, parentPrefix string) {
 		}
 	}
 }
-func dirTree(out io.Writer, path string, printFiles bool) (err error) {
+func DirTree(out io.Writer, path string, printFiles bool) (err error) {
 	nodes, err := GetNodes(path, printFiles)
 	if err != nil {
 		return
@@ -83,7 +83,7 @@ func main() {
 	}
 	path := os.Args[1]
 	printFiles := len(os.Args) == 3 && os.Args[2] == "-f"
-	err := dirTree(out, path, printFiles)
+	err := DirTree(out, path, printFiles)
 	if err != nil {
 		panic(err.Error())
 	}
