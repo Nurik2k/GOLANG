@@ -10,30 +10,30 @@ const testFullResult = `├───project
 │	└───gopher.png (70372b)
 ├───static
 │	├───a_lorem
-│	│	├───dolor.txt (0)
+│	│	├───dolor.txt (empty)
 │	│	├───gopher.png (70372b)
 │	│	└───ipsum
 │	│		└───gopher.png (70372b)
 │	├───css
 │	│	└───body.css (28b)
-│	├───empty.txt (0)
+│	├───empty.txt (empty)
 │	├───html
 │	│	└───index.html (57b)
 │	├───js
 │	│	└───site.js (10b)
 │	└───z_lorem
-│		├───dolor.txt (0)
+│		├───dolor.txt (empty)
 │		├───gopher.png (70372b)
 │		└───ipsum
 │			└───gopher.png (70372b)
 ├───zline
-│	├───empty.txt (0)
+│	├───empty.txt (empty)
 │	└───lorem
-│		├───dolor.txt (0)
+│		├───dolor.txt (empty)
 │		├───gopher.png (70372b)
 │		└───ipsum
 │			└───gopher.png (70372b)
-└───zzfile.txt (0)
+└───zzfile.txt (empty)
 `
 
 func TestTreeFull(t *testing.T) {
