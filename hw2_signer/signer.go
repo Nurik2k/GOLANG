@@ -7,7 +7,6 @@ import (
 	"sync"
 )
 
-// сюда писать код
 func ExecutePipeline(jobs ...job) {
 	var in, out chan interface{}
 	waitGroup := &sync.WaitGroup{}
@@ -17,7 +16,7 @@ func ExecutePipeline(jobs ...job) {
 		out = make(chan interface{}, 100)
 
 		waitGroup.Add(1)
-		go func(j job, in, out chan interface{}) {
+		go func(i job, in, out chan interface{}) {
 			defer waitGroup.Done()
 			defer close(out)
 
@@ -31,14 +30,14 @@ func ExecutePipeline(jobs ...job) {
 func processStr(in, out chan interface{}, process func(string) string) {
 	waitGroup := &sync.WaitGroup{}
 
-	for data := range in {
+	for i := range in {
 		waitGroup.Add(1)
 
 		go func(data string) {
 			defer waitGroup.Done()
 
 			out <- process(data)
-		}(fmt.Sprintln(data))
+		}(fmt.Sprintf("%v", i))
 	}
 
 	waitGroup.Wait()
@@ -48,8 +47,8 @@ func SingleHash(in, out chan interface{}) {
 	md5Mux := &sync.Mutex{}
 
 	processStr(in, out, func(data string) string {
-		hash1 := make(chan string)
 
+		hash1 := make(chan string)
 		go func() {
 			defer close(hash1)
 
@@ -57,7 +56,6 @@ func SingleHash(in, out chan interface{}) {
 		}()
 
 		hash2 := make(chan string)
-
 		go func() {
 			defer close(hash2)
 
@@ -65,7 +63,7 @@ func SingleHash(in, out chan interface{}) {
 			md5Hash := DataSignerMd5(data)
 			md5Mux.Unlock()
 
-			hash2 <- DataSignerMd5(md5Hash)
+			hash2 <- DataSignerCrc32(md5Hash)
 		}()
 
 		return fmt.Sprintf("%s~%s", <-hash1, <-hash2)
@@ -78,30 +76,30 @@ func MultiHash(in, out chan interface{}) {
 		resultMux := &sync.Mutex{}
 		resultWaitGroup := &sync.WaitGroup{}
 
-		for i := 0; i <= 5; i++ {
+		for th := 0; th <= 5; th++ {
 			resultWaitGroup.Add(1)
 
-			go func(i int) {
+			go func(th int) {
 				defer resultWaitGroup.Done()
 
-				hash := DataSignerCrc32(fmt.Sprintf("%d%s", i, data))
+				hash := DataSignerCrc32(fmt.Sprintf("%d%s", th, data)) // crc32(th+data)
 
 				resultMux.Lock()
-				results[i] = hash
+				results[th] = hash
 				resultMux.Unlock()
-			}(i)
+			}(th)
 		}
 
 		resultWaitGroup.Wait()
-
 		return strings.Join(results, "")
 	})
 }
 
 func CombineResults(in, out chan interface{}) {
 	var results []string
-	for i := range in {
-		results = append(results, fmt.Sprintf("%d", i))
+
+	for data := range in {
+		results = append(results, fmt.Sprintf("%v", data))
 	}
 
 	sort.Strings(results)
