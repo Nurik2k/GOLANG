@@ -253,3 +253,7 @@ func TestFindUserByName(t *testing.T) {
 		return
 	}
 }
+
+func TestTimeOut(t *testing.T) {
+
+}
