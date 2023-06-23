@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="" />
+    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw2_signer/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw2_signer/main_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw2_signer/signer.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw2_signer/signer.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -47,7 +51,16 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestSearch in example.com/mymodule/hw3_bench">
+  <component name="RunManager" selected="Go Build.go build example.com/mymodule/hw2_signer">
+    <configuration name="go build example.com/mymodule/hw2_signer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw2_signer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/hw2_signer/signer.go" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
@@ -68,19 +81,7 @@
       <pattern value="^\QBenchmarkFast\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="BenchmarkSlow in example.com/mymodule/hw3_bench" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw3_bench" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw3_bench" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gobench" />
-      <pattern value="^\QBenchmarkSlow\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestPipeline in example.com/mymodule/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestPipeline in example.com/mymodule/hw2_signer (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw2_signer" />
       <root_directory value="$PROJECT_DIR$" />
@@ -104,7 +105,7 @@
       <pattern value="^\QTestSearch\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestSigner in example.com/mymodule/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSigner in example.com/mymodule/hw2_signer (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw2_signer" />
       <root_directory value="$PROJECT_DIR$" />
@@ -116,32 +117,21 @@
       <pattern value="^\QTestSigner\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestTreeFull in main_test.go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw1_tree" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/hw1_tree/main_test.go" />
-      <framework value="gotest" />
-      <pattern value="^\QTestTreeFull\E$" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestTreeFull in main_test.go" />
+      <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
+      <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
+      <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
       <item itemvalue="Go Test.BenchmarkFast in example.com/mymodule/hw3_bench" />
-      <item itemvalue="Go Test.BenchmarkSlow in example.com/mymodule/hw3_bench" />
       <item itemvalue="Go Test.TestSearch in example.com/mymodule/hw3_bench" />
-      <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer" />
-      <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
+        <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
+        <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
         <item itemvalue="Go Test.TestSearch in example.com/mymodule/hw3_bench" />
         <item itemvalue="Go Test.BenchmarkFast in example.com/mymodule/hw3_bench" />
-        <item itemvalue="Go Test.BenchmarkSlow in example.com/mymodule/hw3_bench" />
-        <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
-        <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer" />
       </list>
     </recent_temporary>
   </component>
