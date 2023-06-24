@@ -13,10 +13,13 @@ func ExecutePipeline(jobs ...job) {
 
 	for _, i := range jobs {
 		wg.Add(1)
-		go func(in, out chan interface{}) {
+		go func(job job, in, out chan interface{}) {
 			defer wg.Done()
+			defer close(out)
 
-		}(in, out)
+			i(in, out)
+			out <- in
+		}(i, in, out)
 	}
 	wg.Wait()
 }
