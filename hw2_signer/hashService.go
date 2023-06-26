@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func SingleHashService(in, out chan interface{}, wg sync.WaitGroup, mutex sync.Mutex) {
+func SingleHashService(in interface{}, out chan interface{}, wg sync.WaitGroup, mutex sync.Mutex) {
 	var hash1 chan string
 	var hash2 chan string
 

@@ -23,7 +23,15 @@ func ExecutePipeline(jobs ...job) {
 }
 
 func SingleHash(in, out chan interface{}) {
+	wg := sync.WaitGroup{}
+	mutex := sync.Mutex{}
 
+	for i := range in {
+		wg.Add(1)
+		go SingleHashService(i, out, wg, mutex)
+	}
+
+	wg.Wait()
 }
 
 func MultiHash(in, out chan interface{}) {
@@ -63,7 +71,7 @@ func main() {
 	ExecutePipeline(jobs...)
 }
 
-func ConvToString(inter chan interface{}) string {
+func ConvToString(inter interface{}) string {
 	str := fmt.Sprintf("%v", inter)
 	return str
 }
