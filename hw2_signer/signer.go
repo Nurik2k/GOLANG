@@ -63,7 +63,7 @@ func main() {
 	ExecutePipeline(jobs...)
 }
 
-func InterfaceConv(inter chan interface{}) string {
+func ConvToString(inter chan interface{}) string {
 	str := fmt.Sprintf("%v", inter)
 	return str
 }
