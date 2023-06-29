@@ -16,17 +16,17 @@ func SingleHashService(in interface{}, out chan interface{}, wg *sync.WaitGroup,
 
 	dataCrc32 := DataSignerCrc32(ConvToString(in))
 
-	go func(h1 chan string, d2 string) {
-		h1 <- d2
-	}(hash1, dataCrc32)
+	go func() {
+		hash1 <- dataCrc32
+	}()
 
 	mutex.Lock()
 	dataMd5 := DataSignerMd5(ConvToString(in))
 	mutex.Unlock()
 
-	go func(h2 chan string, d2 string) {
-		h2 <- d2
-	}(hash2, dataMd5)
+	go func() {
+		hash2 <- dataMd5
+	}()
 
 	str := fmt.Sprintf("%s ~ %s", <-hash1, <-hash2)
 	out <- str

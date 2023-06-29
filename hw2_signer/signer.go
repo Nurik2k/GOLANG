@@ -2,20 +2,30 @@ package main
 
 import (
 	"fmt"
+	"sort"
+	"strings"
 	"sync"
 )
 
 func ExecutePipeline(jobs ...job) {
 	in := make(chan interface{})
 	out := make(chan interface{})
-
 	wg := &sync.WaitGroup{}
 
-	for _, j := range jobs {
-
-		go j(in, out)
+	for _, value := range jobs {
 		in = out
+		out = make(chan interface{}, MaxInputDataLen)
+
+		wg.Add(1)
+
+		go func(job2 job, input, output chan interface{}) {
+			defer wg.Done()
+			defer close(output)
+
+			job2(input, output)
+		}(value, in, out)
 	}
+
 	wg.Wait()
 }
 
@@ -34,10 +44,9 @@ func SingleHash(in, out chan interface{}) {
 func MultiHash(in, out chan interface{}) {
 	wg := &sync.WaitGroup{}
 
-	for i := range in {
-
-		go MultiHashService(i, out, wg)
-		wg.Done()
+	for value := range in {
+		wg.Add(1)
+		go MultiHashService(value, out, wg)
 	}
 	wg.Wait()
 }
@@ -72,7 +81,17 @@ func main() {
 }
 
 func CombineResults(in, out chan interface{}) {
+	inputValue := make([]string, MaxInputDataLen)
 
+	for value := range in {
+		inputValue = append(inputValue, ConvToString(value))
+	}
+
+	sort.SliceIsSorted(inputValue, func(i, j int) bool {
+		return inputValue[i] < inputValue[j]
+	})
+
+	out <- strings.Join(inputValue, "_")
 }
 
 func ConvToString(inter interface{}) string {
