@@ -51,54 +51,13 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestSigner in example.com/mymodule/hw2_signer">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="go build example.com/mymodule/hw2_signer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw2_signer" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/hw2_signer/signer.go" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Go Test.TestPipeline in example.com/mymodule/hw2_signer">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestPipeline in example.com/mymodule/hw2_signer (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw2_signer" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw2_signer" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestPipeline\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestPipeline in example.com/mymodule/hw2_signer (3)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw2_signer" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw2_signer" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestPipeline\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestPipeline in example.com/mymodule/hw2_signer (4)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -113,6 +72,42 @@
       <pattern value="^\QTestPipeline\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestPipeline in example.com/mymodule/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw2_signer" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw2_signer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestPipeline\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSigner in example.com/mymodule/hw2_signer (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw2_signer" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw2_signer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSigner\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSigner in example.com/mymodule/hw2_signer (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw2_signer" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw2_signer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSigner\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestSigner in example.com/mymodule/hw2_signer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw2_signer" />
@@ -125,30 +120,21 @@
       <pattern value="^\QTestSigner\E$" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
+      <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
+      <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (2)" />
+      <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
       <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (4)" />
       <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer" />
-      <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (3)" />
-      <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (2)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
+        <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (2)" />
+        <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
         <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer" />
         <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (4)" />
-        <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (3)" />
-        <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
-        <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (2)" />
       </list>
     </recent_temporary>
   </component>
