@@ -50,20 +50,20 @@ const (
 type SearchRequest struct {
 	Limit      int
 	Offset     int    // Можно учесть после сортировки
-	Query      string // подстрока в 1 из полей
+	Query      string // Подстрока в 1 из полей
 	OrderField string
 	// -1 по убыванию, 0 как встретилось, 1 по возрастанию
 	OrderBy int
 }
 
 type SearchClient struct {
-	// токен, по которому происходит авторизация на внешней системе, уходит туда через хедер
+	// Токен, по которому происходит авторизация на внешней системе, уходит туда через хедер
 	AccessToken string
-	// урл внешней системы, куда идти
+	// Урл внешней системы, куда идти
 	URL string
 }
 
-// FindUsers отправляет запрос во внешнюю систему, которая непосредственно ищет пользоваталей
+// FindUsers отправляет запрос во внешнюю систему, которая непосредственно ищет пользователей
 func (srv *SearchClient) FindUsers(req SearchRequest) (*SearchResponse, error) {
 
 	searcherParams := url.Values{}
@@ -89,7 +89,7 @@ func (srv *SearchClient) FindUsers(req SearchRequest) (*SearchResponse, error) {
 
 	searcherReq, err := http.NewRequest("GET", srv.URL+"?"+searcherParams.Encode(), nil)
 	searcherReq.Header.Add("AccessToken", srv.AccessToken)
-	
+
 	resp, err := client.Do(searcherReq)
 	if err != nil {
 		if err, ok := err.(net.Error); ok && err.Timeout() {

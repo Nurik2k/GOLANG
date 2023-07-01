@@ -15,7 +15,7 @@ func ExecutePipeline(jobs ...job) {
 
 	for _, value := range jobs { // Итерируемся по значениям в слайсе jobs
 		in = out
-		out = make(chan interface{}, MaxInputDataLen) // Создаем новый канал выходных данных для текущего job
+		out = make(chan interface{}) // Создаем новый канал выходных данных для текущего job
 
 		wg.Add(1)
 
