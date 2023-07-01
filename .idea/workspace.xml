@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw2_signer/signer.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw2_signer/signer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
-    </list>
+    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +47,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)">
+  <component name="RunManager" selected="Go Build.go build main.go (1)">
     <configuration name="go build example.com/mymodule/hw2_signer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -60,6 +55,15 @@
       <package value="example.com/mymodule/hw2_signer" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/hw2_signer/signer.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <package value="example.com/mymodule" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/simpleApiServer/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
@@ -94,18 +98,6 @@
       <pattern value="^\QTestPipeline\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestSigner in example.com/mymodule/hw2_signer (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw2_signer" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw2_signer" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestSigner\E$" />
-      <method v="2" />
-    </configuration>
     <configuration name="TestSigner in example.com/mymodule/hw2_signer (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw2_signer" />
@@ -120,19 +112,19 @@
     </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Build.go build main.go (1)" />
       <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
       <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
       <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
       <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (2)" />
-      <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
         <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
         <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer" />
         <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (2)" />
-        <item itemvalue="Go Test.TestSigner in example.com/mymodule/hw2_signer (1)" />
       </list>
     </recent_temporary>
   </component>
