@@ -20,7 +20,6 @@ type xmlUser struct {
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	orderField := r.URL.Query().Get("order_field")
-	var users User
 
 	xmlData, err := ioutil.ReadFile("dataset.xml")
 	if err != nil {
@@ -28,9 +27,12 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = xml.Unmarshal(xmlData, users)
+	var users User
+	err = xml.Unmarshal(xmlData, &users)
 	if err != nil {
 		http.Error(w, "Данные не переведены", 500)
 		return
 	}
+
+	sortUsers(users, orderField)
 }
