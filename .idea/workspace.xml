@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Web/dataset.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Web/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Web/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/Services.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +46,7 @@
     "WebServerToolWindowFactoryState": "false",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "S:/GOLANG/PlayTests",
+    "last_opened_file_path": "S:/GOLANG/Web",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
@@ -53,10 +55,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="S:\GOLANG\Web" />
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build example.com/mymodule/PlayTests">
+  <component name="RunManager" selected="Go Build.go build example.com/mymodule/Web">
     <configuration name="go build example.com/mymodule/PlayTests" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -66,13 +69,13 @@
       <filePath value="$PROJECT_DIR$/PlayTests/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="go build example.com/mymodule/hw2_signer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build example.com/mymodule/Web" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw2_signer" />
+      <package value="example.com/mymodule/Web" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/hw2_signer/signer.go" />
+      <filePath value="$PROJECT_DIR$/Web/main.go" />
       <method v="2" />
     </configuration>
     <configuration name="go build example.com/mymodule/hw4_test_coverage" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
@@ -115,19 +118,19 @@
     </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Build.go build example.com/mymodule/Web" />
       <item itemvalue="Go Build.go build example.com/mymodule/PlayTests" />
       <item itemvalue="Go Build.go build example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Build.go build main.go (1)" />
-      <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
       <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
         <item itemvalue="Go Build.go build example.com/mymodule/PlayTests" />
         <item itemvalue="Go Build.go build example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Test.TestPipeline in example.com/mymodule/hw2_signer (1)" />
-        <item itemvalue="Go Build.go build example.com/mymodule/hw2_signer" />
       </list>
     </recent_temporary>
   </component>

@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"sort"
@@ -96,4 +97,16 @@ func getUsersResponse(users []xmlUser) string {
 	}
 
 	return response
+}
+
+func main() {
+	http.HandleFunc("/users", SearchServer)
+
+	port := ":8080"
+	fmt.Println("Server in port:", port)
+
+	err := http.ListenAndServe(port, nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
