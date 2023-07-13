@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -8,6 +9,7 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"testing"
 )
 
 type xmlUser struct {
@@ -27,19 +29,19 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 
 	xmlData, err := os.Open("Web/dataset.xml")
 	if err != nil {
-		http.Error(w, "File not found", 500)
+		http.Error(w, err.Error(), 500)
 	}
 
 	reader, err := ioutil.ReadAll(xmlData)
 	if err != nil {
-		http.Error(w, "Error reading data file", 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
 	var users Users
 	err = xml.Unmarshal(reader, &users)
 	if err != nil {
-		http.Error(w, "Error parsing XML data", 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -56,8 +58,13 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 	sortUsers(searchResults, orderField)
 
 	response := getUsersResponse(searchResults)
-	fmt.Fprintf(w, response)
 
+	js, err := json.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+
+	w.Write(js)
 }
 
 func sortUsers(users []xmlUser, orderField string) {
@@ -96,4 +103,26 @@ func getUsersResponse(users []xmlUser) string {
 	}
 
 	return response
+}
+
+func Test_NegativeLimit(t *testing.T) {
+	searchClient := &SearchClient{
+		AccessToken: "testAccessToken",
+		URL:         "http://example.com",
+	}
+
+	req := SearchRequest{
+		Limit:  -10,
+		Offset: 0,
+	}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("expected an error, but got nil")
+	}
+
+	expectedErrMsg := "limit must be > 0"
+	if err.Error() != expectedErrMsg {
+		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
+	}
 }
