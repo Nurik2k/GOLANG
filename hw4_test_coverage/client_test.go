@@ -105,6 +105,7 @@ func getUsersResponse(users []xmlUser) string {
 	return response
 }
 
+// Tests
 func Test_NegativeLimit(t *testing.T) {
 	searchClient := &SearchClient{
 		AccessToken: "testAccessToken",
@@ -122,6 +123,50 @@ func Test_NegativeLimit(t *testing.T) {
 	}
 
 	expectedErrMsg := "limit must be > 0"
+	if err.Error() != expectedErrMsg {
+		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
+	}
+}
+
+func TestLimitValidation(t *testing.T) {
+	searchClient := &SearchClient{
+		AccessToken: "testAccessToken",
+		URL:         "http://example.com",
+	}
+
+	req := SearchRequest{
+		Limit: 30,
+	}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("expected an error, but got nil")
+	}
+
+	// Проверяем, что значение Limit было ограничено до 25
+	expectedLimit := 25
+	if req.Limit != expectedLimit {
+		t.Errorf("expected limit to be %d, but got %d", expectedLimit, req.Limit)
+	}
+}
+
+func TestOffsetValidation(t *testing.T) {
+	searchClient := &SearchClient{
+		AccessToken: "testAccessToken",
+		URL:         "http://example.com",
+	}
+
+	req := SearchRequest{
+		Offset: -10,
+	}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("expected an error, but got nil")
+	}
+
+	// Проверяем, что получили ошибку с соответствующим сообщением
+	expectedErrMsg := "offset must be > 0"
 	if err.Error() != expectedErrMsg {
 		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
 	}
