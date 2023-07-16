@@ -1,6 +1,7 @@
 package main
 
 import (
+	json2 "encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -8,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -22,50 +24,112 @@ type Users struct {
 	Users []xmlUser `xml:"row"`
 }
 
+type User struct {
+	Id     int
+	Name   string
+	Age    int
+	About  string
+	Gender string
+}
+
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	orderField := r.URL.Query().Get("order_field")
+	limit := r.URL.Query().Get("limit")
+	offset := r.URL.Query().Get("offset")
 
-	xmlData, err := os.Open("Web/dataset.xml")
+	users, err := loadUsersFromXML("Web/dataset.xml")
 	if err != nil {
-		http.Error(w, "File not found", 500)
-	}
-
-	reader, err := ioutil.ReadAll(xmlData)
-	if err != nil {
-		http.Error(w, "Error reading data file", 500)
-		return
-	}
-
-	var users Users
-	err = xml.Unmarshal(reader, &users)
-	if err != nil {
-		http.Error(w, "Error parsing XML data", 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
 	if query == "" {
-		sortUsers(users.Users, orderField)
+		sortUsers(users, orderField)
 
-		response := getUsersResponse(users.Users)
+		response := getUsersResponse(users)
 		fmt.Fprintf(w, response)
 		return
 	}
 
-	searchResults := searchUsers(users.Users, query)
+	searchResults := searchUsers(users, query)
 
 	sortUsers(searchResults, orderField)
 
-	response := getUsersResponse(searchResults)
-	fmt.Fprintf(w, response)
+	limitedResults := applyLimitAndOffset(searchResults, limit, offset)
 
+	js, err := json2.Marshal(limitedResults)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
-func sortUsers(users []xmlUser, orderField string) {
+func loadUsersFromXML(filename string) ([]User, error) {
+	xmlData, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer xmlData.Close()
+
+	var users Users
+
+	file, err := ioutil.ReadAll(xmlData)
+	if err != nil {
+		return nil, err
+	}
+	xml.Unmarshal(file, &users)
+
+	return convertXMLUsersToUsers(users.Users), nil
+}
+
+func convertXMLUsersToUsers(xmlUsers []xmlUser) []User {
+	var users []User
+	for _, xmlUser := range xmlUsers {
+		user := convertXMLUserToUser(xmlUser)
+		users = append(users, user)
+	}
+	return users
+}
+
+func convertXMLUserToUser(xmlUser xmlUser) User {
+	return User{
+		Id:    xmlUser.ID,
+		Name:  xmlUser.Name,
+		Age:   xmlUser.Age,
+		About: xmlUser.About,
+	}
+}
+
+func applyLimitAndOffset(result []User, limitStr, offsetStr string) []User {
+	limit, _ := strconv.Atoi(limitStr)
+	offset, _ := strconv.Atoi(offsetStr)
+
+	if limit > 0 {
+		from := offset
+		if from > len(result)-1 {
+			return []User{}
+		} else {
+			to := offset + limit
+			if to > len(result) {
+				to = len(result)
+			}
+
+			return result[from:to]
+		}
+	}
+
+	return result
+}
+
+func sortUsers(users []User, orderField string) {
 	switch orderField {
 	case "Id":
 		sort.Slice(users, func(i, j int) bool {
-			return users[i].ID < users[j].ID
+			return users[i].Id < users[j].Id
 		})
 	case "Age":
 		sort.Slice(users, func(i, j int) bool {
@@ -78,22 +142,21 @@ func sortUsers(users []xmlUser, orderField string) {
 	}
 }
 
-func searchUsers(users []xmlUser, query string) []xmlUser {
-	var results []xmlUser
+func searchUsers(users []User, query string) []User {
+	var results []User
 	for _, user := range users {
 		if strings.Contains(user.Name, query) || strings.Contains(user.About, query) {
 			results = append(results, user)
 		}
 	}
-
 	return results
 }
 
-func getUsersResponse(users []xmlUser) string {
+func getUsersResponse(users []User) string {
 	var response string
 
 	for _, user := range users {
-		response += fmt.Sprintf("ID: %d, Name: %s, About: %s, Age: %d\n", user.ID, user.Name, user.About, user.Age)
+		response += fmt.Sprintf("ID: %d, Name: %s, About: %s, Age: %d\n", user.Id, user.Name, user.About, user.Age)
 	}
 
 	return response
