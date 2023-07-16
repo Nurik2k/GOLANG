@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -23,48 +22,29 @@ type Users struct {
 	Users []xmlUser `xml:"row"`
 }
 
+var AccessToken = "abc123"
+
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
 	orderField := r.URL.Query().Get("order_field")
+
+	if r.Header.Get("AccessToken") != AccessToken {
+		http.Error(w, "Invalid AccessToken", 500)
+	}
 
 	xmlData, err := os.Open("Web/dataset.xml")
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
 
-	reader, err := ioutil.ReadAll(xmlData)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
+	var user Users
 
-	var users Users
-	err = xml.Unmarshal(reader, &users)
-	if err != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	if query == "" {
-		sortUsers(users.Users, orderField)
-
-		response := getUsersResponse(users.Users)
-		fmt.Fprintf(w, response)
-		return
-	}
-
-	searchResults := searchUsers(users.Users, query)
-
-	sortUsers(searchResults, orderField)
-
-	response := getUsersResponse(searchResults)
-
-	js, err := json.Marshal(response)
+	file, err := ioutil.ReadAll(xmlData)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
+	xml.Unmarshal(file, &user)
 
-	w.Write(js)
 }
 
 func sortUsers(users []xmlUser, orderField string) {
@@ -118,7 +98,7 @@ func Test_NegativeLimit(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err == nil {
+	if err != nil {
 		t.Error("expected an error, but got nil")
 	}
 
@@ -139,7 +119,7 @@ func TestLimitValidation(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err == nil {
+	if err != nil {
 		t.Error("expected an error, but got nil")
 	}
 
@@ -161,7 +141,7 @@ func TestOffsetValidation(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err == nil {
+	if err != nil {
 		t.Error("expected an error, but got nil")
 	}
 

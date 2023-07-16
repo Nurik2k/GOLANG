@@ -58,15 +58,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
@@ -99,7 +91,7 @@
       <pattern value="^\QTestOffsetValidation\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_Limit in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSearchClient_FindUsers_ResultPagination in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -108,7 +100,19 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTest_Limit\E$" />
+      <pattern value="^\QTestSearchClient_FindUsers_ResultPagination\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestSearchResponseCreation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSearchResponseCreation\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -123,42 +127,21 @@
       <pattern value="^\QTest_NegativeLimit\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="Test_ValidLimit in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_ValidLimit\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Test.TestSearchClient_FindUsers_ResultPagination in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestSearchResponseCreation in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.Test_Limit in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.Test_ValidLimit in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.Test_ValidLimit in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.Test_Limit in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestSearchClient_FindUsers_ResultPagination in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestSearchResponseCreation in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
   </component>
