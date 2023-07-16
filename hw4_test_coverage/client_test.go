@@ -1,6 +1,7 @@
 package main
 
 import (
+	json2 "encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -37,14 +38,35 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 
-	var user Users
+	var users Users
 
 	file, err := ioutil.ReadAll(xmlData)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 	}
-	xml.Unmarshal(file, &user)
+	xml.Unmarshal(file, &users)
 
+	if query == "" {
+		sortUsers(users.Users, orderField)
+
+		response := getUsersResponse(users.Users)
+		fmt.Fprintf(w, response)
+		return
+	}
+
+	searchResults := searchUsers(users.Users, query)
+
+	sortUsers(searchResults, orderField)
+
+	response := getUsersResponse(searchResults)
+
+	js, err := json2.Marshal(response)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
 func sortUsers(users []xmlUser, orderField string) {
