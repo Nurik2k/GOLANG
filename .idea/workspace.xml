@@ -5,8 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/HttpTest/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HttpTest/main_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Web/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +61,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage">
+  <component name="RunManager" selected="Go Test.TestGetUser in example.com/mymodule/HttpTest">
     <configuration name="go build example.com/mymodule/Web" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -74,6 +79,30 @@
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="TestGetUser in example.com/mymodule/HttpTest" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/HttpTest" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/HttpTest" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetUser\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestLimitValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestLimitValidation\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestOffsetValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
@@ -84,30 +113,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestOffsetValidation\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_NegativeLimit\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTest_NegativeLimit\E$" />
       <method v="2" />
     </configuration>
     <configuration name="Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -125,18 +130,18 @@
     <list>
       <item itemvalue="Go Build.go build main.go" />
       <item itemvalue="Go Build.go build example.com/mymodule/Web" />
+      <item itemvalue="Go Test.TestGetUser in example.com/mymodule/HttpTest" />
+      <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (2)" />
-      <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (1)" />
       <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
-        <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (2)" />
-        <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage (1)" />
+        <item itemvalue="Go Test.TestGetUser in example.com/mymodule/HttpTest" />
+        <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
+        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
   </component>

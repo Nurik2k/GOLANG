@@ -24,6 +24,8 @@ type Users struct {
 	Users []xmlUser `xml:"row"`
 }
 
+var AccessToken = "abc123"
+
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")            // Получение значения параметра "query" из URL запроса
 	orderField := r.URL.Query().Get("order_field") // Получение значения параметра "order_field" из URL запроса
@@ -156,7 +158,7 @@ func getUsersResponse(users []User) string {
 
 // Tests
 func Test_NegativeLimit(t *testing.T) {
-	searchClient := &SearchClient{
+	searchClient := SearchClient{
 		AccessToken: "testAccessToken",
 		URL:         "http://example.com",
 	}
@@ -167,7 +169,7 @@ func Test_NegativeLimit(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err != nil {
+	if err == nil {
 		t.Error("expected an error, but got nil")
 	}
 
@@ -178,7 +180,7 @@ func Test_NegativeLimit(t *testing.T) {
 }
 
 func TestLimitValidation(t *testing.T) {
-	searchClient := &SearchClient{
+	searchClient := SearchClient{
 		AccessToken: "testAccessToken",
 		URL:         "http://example.com",
 	}
@@ -188,11 +190,10 @@ func TestLimitValidation(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err != nil {
+	if err == nil {
 		t.Error("expected an error, but got nil")
 	}
 
-	// Проверяем, что значение Limit было ограничено до 25
 	expectedLimit := 25
 	if req.Limit != expectedLimit {
 		t.Errorf("expected limit to be %d, but got %d", expectedLimit, req.Limit)
@@ -210,7 +211,7 @@ func TestOffsetValidation(t *testing.T) {
 	}
 
 	_, err := searchClient.FindUsers(req)
-	if err != nil {
+	if err == nil {
 		t.Error("expected an error, but got nil")
 	}
 

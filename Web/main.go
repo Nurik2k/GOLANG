@@ -14,10 +14,11 @@ import (
 )
 
 type xmlUser struct {
-	ID    int    `xml:"id"`
-	Name  string `xml:"first_name"`
-	About string `xml:"about"`
-	Age   int    `xml:"age"`
+	ID     int    `xml:"id"`
+	Name   string `xml:"first_name"`
+	About  string `xml:"about"`
+	Age    int    `xml:"age"`
+	Gender string `xml:"gender"`
 }
 
 type Users struct {
@@ -125,17 +126,21 @@ func applyLimitAndOffset(result []User, limitStr, offsetStr string) []User {
 	return result
 }
 
+// todo: order by
 func sortUsers(users []User, orderField string) {
 	switch orderField {
 	case "Id":
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Id < users[j].Id
 		})
+	case "Name", "":
+		// todo: check sort by strings desc and asc
 	case "Age":
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Age < users[j].Age
 		})
 	default:
+		// todo: return error
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Name < users[j].Name
 		})
@@ -156,7 +161,7 @@ func getUsersResponse(users []User) string {
 	var response string
 
 	for _, user := range users {
-		response += fmt.Sprintf("ID: %d, Name: %s, About: %s, Age: %d\n", user.Id, user.Name, user.About, user.Age)
+		response += fmt.Sprintf("ID: %d, Name: %s, About: %s, Age: %d, Gender: %s\n", user.Id, user.Name, user.About, user.Age, user.Gender)
 	}
 
 	return response
