@@ -24,8 +24,6 @@ type Users struct {
 	Users []xmlUser `xml:"row"`
 }
 
-var AccessToken = "abc123"
-
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")            // Получение значения параметра "query" из URL запроса
 	orderField := r.URL.Query().Get("order_field") // Получение значения параметра "order_field" из URL запроса
