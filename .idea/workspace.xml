@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/HttpTest/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HttpTest/main_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Web/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +57,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestGetUser in example.com/mymodule/HttpTest">
+  <component name="RunManager" selected="Go Build.go build example.com/mymodule/Web">
     <configuration name="go build example.com/mymodule/Web" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -137,10 +133,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
         <item itemvalue="Go Test.TestGetUser in example.com/mymodule/HttpTest" />
         <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
         <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
@@ -148,6 +144,17 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

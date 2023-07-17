@@ -1,7 +1,7 @@
 package main
 
 import (
-	json2 "encoding/json"
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -34,10 +34,12 @@ type User struct {
 }
 
 func SearchServer(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query().Get("query")
-	orderField := r.URL.Query().Get("order_field")
-	limit := r.URL.Query().Get("limit")
-	offset := r.URL.Query().Get("offset")
+	q := r.URL.Query()
+
+	query := q.Get("query")
+	orderField := q.Get("order_field")
+	limit := q.Get("limit")
+	offset := q.Get("offset")
 
 	users, err := loadUsersFromXML("Web/dataset.xml")
 	if err != nil {
@@ -45,21 +47,18 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if query == "" {
-		sortUsers(users, orderField)
-
-		response := getUsersResponse(users)
-		fmt.Fprintf(w, response)
-		return
+	var searchResults []User
+	if query != "" {
+		searchResults = searchUsers(users, query)
+	} else {
+		searchResults = users
 	}
-
-	searchResults := searchUsers(users, query)
 
 	sortUsers(searchResults, orderField)
 
 	limitedResults := applyLimitAndOffset(searchResults, limit, offset)
 
-	js, err := json2.Marshal(limitedResults)
+	js, err := json.Marshal(limitedResults)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -69,22 +68,32 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
-func loadUsersFromXML(filename string) ([]User, error) {
-	xmlData, err := os.Open(filename)
-	if err != nil {
-		return nil, err
+func searchUsers(users []User, query string) []User {
+	var results []User
+	for _, user := range users {
+		if strings.Contains(user.Name, query) || strings.Contains(user.About, query) {
+			results = append(results, user)
+		}
 	}
-	defer xmlData.Close()
+	return results
+}
+
+func loadUsersFromXML(filename string) ([]User, error) {
+	xmlData, err := os.Open(filename) // Открытие XML файла
+	if err != nil {
+		return nil, err // В случае ошибки, возвращаем ошибку
+	}
+	defer xmlData.Close() // Закрытие файла после окончания работы функции
 
 	var users Users
 
-	file, err := ioutil.ReadAll(xmlData)
+	file, err := ioutil.ReadAll(xmlData) // Чтение содержимого файла
 	if err != nil {
-		return nil, err
+		return nil, err // В случае ошибки, возвращаем ошибку
 	}
-	xml.Unmarshal(file, &users)
+	xml.Unmarshal(file, &users) // Разбор XML данных и сохранение результатов в структуру users
 
-	return convertXMLUsersToUsers(users.Users), nil
+	return convertXMLUsersToUsers(users.Users), nil // Преобразование пользователей из формата XML в формат User и возвращение результатов
 }
 
 func convertXMLUsersToUsers(xmlUsers []xmlUser) []User {
@@ -98,73 +107,53 @@ func convertXMLUsersToUsers(xmlUsers []xmlUser) []User {
 
 func convertXMLUserToUser(xmlUser xmlUser) User {
 	return User{
-		Id:    xmlUser.ID,
-		Name:  xmlUser.Name,
-		Age:   xmlUser.Age,
-		About: xmlUser.About,
+		Id:     xmlUser.ID,
+		Name:   xmlUser.Name,
+		Age:    xmlUser.Age,
+		About:  xmlUser.About,
+		Gender: xmlUser.Gender,
 	}
 }
 
 func applyLimitAndOffset(result []User, limitStr, offsetStr string) []User {
-	limit, _ := strconv.Atoi(limitStr)
-	offset, _ := strconv.Atoi(offsetStr)
+	limit, _ := strconv.Atoi(limitStr)   // Преобразование строкового значения "limitStr" в целое число
+	offset, _ := strconv.Atoi(offsetStr) // Преобразование строкового значения "offsetStr" в целое число
 
-	if limit > 0 {
-		from := offset
+	if limit > 0 { // Если задано ограничение
+		from := offset // Определение начального индекса
 		if from > len(result)-1 {
-			return []User{}
+			return []User{} // Если начальный индекс превышает длину результата, возвращаем пустой массив
 		} else {
-			to := offset + limit
+			to := offset + limit // Определение конечного индекса
 			if to > len(result) {
-				to = len(result)
+				to = len(result) // Если конечный индекс превышает длину результата, устанавливаем его равным длине результата
 			}
 
-			return result[from:to]
+			return result[from:to] // Возвращаем срез результата с примененными ограничениями
 		}
 	}
 
-	return result
+	return result // Если ограничение не задано, возвращаем весь результат
 }
 
-// todo: order by
 func sortUsers(users []User, orderField string) {
-	switch orderField {
+	switch orderField { // В зависимости от значения "orderField" выполняем сортировку пользователей
 	case "Id":
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Id < users[j].Id
 		})
-	case "Name", "":
-		// todo: check sort by strings desc and asc
 	case "Age":
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Age < users[j].Age
 		})
-	default:
-		// todo: return error
+
+	case "Name", " ":
 		sort.Slice(users, func(i, j int) bool {
 			return users[i].Name < users[j].Name
 		})
+	default:
+		return
 	}
-}
-
-func searchUsers(users []User, query string) []User {
-	var results []User
-	for _, user := range users {
-		if strings.Contains(user.Name, query) || strings.Contains(user.About, query) {
-			results = append(results, user)
-		}
-	}
-	return results
-}
-
-func getUsersResponse(users []User) string {
-	var response string
-
-	for _, user := range users {
-		response += fmt.Sprintf("ID: %d, Name: %s, About: %s, Age: %d, Gender: %s\n", user.Id, user.Name, user.About, user.Age, user.Gender)
-	}
-
-	return response
 }
 
 func main() {
