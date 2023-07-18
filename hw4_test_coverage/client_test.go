@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -29,36 +30,71 @@ var AccessToken = "abc123"
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
 
-	query := q.Get("query")
-	orderField := q.Get("order_field")
-	limit := q.Get("limit")
-	offset := q.Get("offset")
+	query := q.Get("query")            // Получаем значение параметра "query" из URL-запроса
+	orderField := q.Get("order_field") // Получаем значение параметра "order_field" из URL-запроса
+	limit := q.Get("limit")            // Получаем значение параметра "limit" из URL-запроса
+	offset := q.Get("offset")          // Получаем значение параметра "offset" из URL-запроса
 
-	users, err := loadUsersFromXML("Web/dataset.xml")
+	users, err := loadUsersFromXML("Web/dataset.xml") // Загружаем данные пользователей из XML-файла
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка, возвращаем её как HTTP-ответ с кодом 500
 		return
 	}
 
 	var searchResults []User
 	if query != "" {
-		searchResults = searchUsers(users, query)
+		searchResults = searchUsers(users, query) // Если значение параметра "query" не пустое, выполняем поиск пользователей
 	} else {
-		searchResults = users
+		searchResults = users // Иначе возвращаем всех пользователей
 	}
 
-	sortUsers(searchResults, orderField)
+	sortUsers(searchResults, orderField) // Сортируем результаты по указанному полю
 
-	limitedResults := applyLimitAndOffset(searchResults, limit, offset)
+	limitedResults := applyLimitAndOffset(searchResults, limit, offset) // Применяем ограничение и смещение к результатам поиска
 
-	js, err := json.Marshal(limitedResults)
+	js, err := json.Marshal(limitedResults) // Преобразуем ограниченные результаты в формат JSON
 	if err != nil {
-		http.Error(w, err.Error(), 500)
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при маршалинге в JSON, возвращаем её как HTTP-ответ с кодом 500
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(js)
+	resp, err := http.Get("http://external-api.com") // Выполняем GET-запрос к внешнему API
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при выполнении запроса, возвращаем её как HTTP-ответ с кодом 500
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body) // Читаем тело ответа
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при чтении тела ответа, возвращаем её как HTTP-ответ с кодом 500
+		return
+	}
+
+	switch resp.StatusCode {
+	case http.StatusUnauthorized:
+		http.Error(w, "Bad AccessToken", http.StatusUnauthorized) // Если получен статус-код 401 Unauthorized, возвращаем ошибку с кодом 401
+		return
+	case http.StatusInternalServerError:
+		http.Error(w, "SearchServer fatal error", http.StatusInternalServerError) // Если получен статус-код 500 Internal Server Error, возвращаем ошибку с кодом 500
+		return
+	case http.StatusBadRequest:
+		errRespBytes, err := json.Marshal(body) // Преобразуем тело ответа в формат JSON
+		if err != nil {
+			http.Error(w, fmt.Sprintf("cant pack error json: %s", err), http.StatusInternalServerError) // Если произошла ошибка при маршалинге в JSON, возвращаем её как HTTP-ответ с кодом 500
+			return
+		}
+		errResp := string(errRespBytes)
+		if errResp == "ErrorBadOrderField" {
+			http.Error(w, fmt.Sprintf("OrderField %s invalid", orderField), http.StatusBadRequest) // Если получен статус-код 400 Bad Request с ошибкой "ErrorBadOrderField", возвращаем ошибку с кодом 400
+			return
+		}
+		http.Error(w, fmt.Sprintf("unknown bad request error: %s", errResp), http.StatusBadRequest) // Если получен статус-код 400 Bad Request с неизвестной ошибкой, возвращаем ошибку с кодом 400
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json") // Устанавливаем заголовок HTTP-ответа для указания типа контента как JSON
+	w.Write(js)                                        // Отправляем ограниченные результаты в формате JSON как HTTP-ответ
 }
 
 func searchUsers(users []User, query string) []User {

@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Web/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Web/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +56,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build example.com/mymodule/Web">
+  <component name="RunManager" selected="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage">
     <configuration name="go build example.com/mymodule/Web" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -133,11 +132,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
-        <item itemvalue="Go Test.TestGetUser in example.com/mymodule/HttpTest" />
+        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.Test_NegativeLimit in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Build.go build example.com/mymodule/Web" />
+        <item itemvalue="Go Test.TestGetUser in example.com/mymodule/HttpTest" />
       </list>
     </recent_temporary>
   </component>
