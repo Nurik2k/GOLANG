@@ -13,179 +13,183 @@ import (
 	"testing"
 )
 
-type xmlUser struct {
-	ID     int    `xml:"id"`
-	Name   string `xml:"first_name" xml:"last_name"`
-	About  string `xml:"about"`
-	Age    int    `xml:"age"`
-	Gender string `xml:"gender"`
+type RowUsers struct {
+	Rows []Xmluser `xml:"row"`
 }
 
-type Users struct {
-	Users []xmlUser `xml:"row"`
+type Xmluser struct {
+	XMLName xml.Name `xml:"row"`
+	Id      int      `xml:"id"`
+	Name    string   `xml:"first_name" +xml:"last_name"`
+	About   string   `xml:"about"`
+	Age     int      `xml:"age"`
+	Gender  string   `xml:"gender"`
 }
 
 var AccessToken = "abc123"
 
 func SearchServer(w http.ResponseWriter, r *http.Request) {
 	q := r.URL.Query()
+	query := q.Get("query")                       // Получение значения параметра "query"
+	limit, _ := strconv.Atoi(q.Get("limit"))      // Получение значения параметра "limit"
+	offset, _ := strconv.Atoi(q.Get("offset"))    // Получение значения параметра "offset"
+	orderBy, _ := strconv.Atoi(q.Get("order_by")) // Получение значения параметра "order_by"
+	orderField := q.Get("order_field")            // Получение значения параметра "order_field"
 
-	query := q.Get("query")            // Получаем значение параметра "query" из URL-запроса
-	orderField := q.Get("order_field") // Получаем значение параметра "order_field" из URL-запроса
-	limit := q.Get("limit")            // Получаем значение параметра "limit" из URL-запроса
-	offset := q.Get("offset")          // Получаем значение параметра "offset" из URL-запроса
+	// Проверка валидности access token
+	if r.Header.Get("AccessToken") != AccessToken {
+		http.Error(w, "Invalid access token", http.StatusUnauthorized)
+		return
+	}
 
-	users, err := loadUsersFromXML("Web/dataset.xml") // Загружаем данные пользователей из XML-файла
+	// Чтение и декодирование XML данных из файла
+	data, err := readRowUsers("dataset.xml")
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка, возвращаем её как HTTP-ответ с кодом 500
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	var searchResults []User
-	if query != "" {
-		searchResults = searchUsers(users, query) // Если значение параметра "query" не пустое, выполняем поиск пользователей
-	} else {
-		searchResults = users // Иначе возвращаем всех пользователей
-	}
+	filteredRows := filterRowsByQuery(data.Rows, query) // Фильтрация строк данных на основе запроса
 
-	sortUsers(searchResults, orderField) // Сортируем результаты по указанному полю
+	users := convertRowsToUsers(filteredRows) // Преобразование строк данных в структуры пользователей
 
-	limitedResults := applyLimitAndOffset(searchResults, limit, offset) // Применяем ограничение и смещение к результатам поиска
-
-	js, err := json.Marshal(limitedResults) // Преобразуем ограниченные результаты в формат JSON
+	// Сортировка пользователей на основе заданного поля и направления
+	orderedUsers, err := sortUsers(users, orderBy, orderField)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при маршалинге в JSON, возвращаем её как HTTP-ответ с кодом 500
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	resp, err := http.Get("http://external-api.com") // Выполняем GET-запрос к внешнему API
+	usersWithLimitOffset := applyLimitOffset(orderedUsers, limit, offset) // Применение ограничения по количеству и смещению к списку пользователей
+
+	// Преобразование списка пользователей в JSON
+	js, err := json.Marshal(usersWithLimitOffset)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при выполнении запроса, возвращаем её как HTTP-ответ с кодом 500
-		return
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body) // Читаем тело ответа
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError) // Если произошла ошибка при чтении тела ответа, возвращаем её как HTTP-ответ с кодом 500
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	switch resp.StatusCode {
-	case http.StatusUnauthorized:
-		http.Error(w, "Bad AccessToken", http.StatusUnauthorized) // Если получен статус-код 401 Unauthorized, возвращаем ошибку с кодом 401
-		return
-	case http.StatusInternalServerError:
-		http.Error(w, "SearchServer fatal error", http.StatusInternalServerError) // Если получен статус-код 500 Internal Server Error, возвращаем ошибку с кодом 500
-		return
-	case http.StatusBadRequest:
-		errRespBytes, err := json.Marshal(body) // Преобразуем тело ответа в формат JSON
-		if err != nil {
-			http.Error(w, fmt.Sprintf("cant pack error json: %s", err), http.StatusInternalServerError) // Если произошла ошибка при маршалинге в JSON, возвращаем её как HTTP-ответ с кодом 500
-			return
-		}
-		errResp := string(errRespBytes)
-		if errResp == "ErrorBadOrderField" {
-			http.Error(w, fmt.Sprintf("OrderField %s invalid", orderField), http.StatusBadRequest) // Если получен статус-код 400 Bad Request с ошибкой "ErrorBadOrderField", возвращаем ошибку с кодом 400
-			return
-		}
-		http.Error(w, fmt.Sprintf("unknown bad request error: %s", errResp), http.StatusBadRequest) // Если получен статус-код 400 Bad Request с неизвестной ошибкой, возвращаем ошибку с кодом 400
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json") // Устанавливаем заголовок HTTP-ответа для указания типа контента как JSON
-	w.Write(js)                                        // Отправляем ограниченные результаты в формате JSON как HTTP-ответ
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
 }
 
-func searchUsers(users []User, query string) []User {
-	var results []User
-	for _, user := range users {
-		if strings.Contains(user.Name, query) || strings.Contains(user.About, query) {
-			results = append(results, user)
+// Чтение и декодирование XML данных из файла
+func readRowUsers(filename string) (RowUsers, error) {
+	xmlFile, err := os.Open(filename)
+	if err != nil {
+		return RowUsers{}, fmt.Errorf("failed to open XML file: %w", err)
+	}
+	defer xmlFile.Close()
+
+	var data RowUsers
+	b, err := ioutil.ReadAll(xmlFile)
+	if err != nil {
+		return RowUsers{}, fmt.Errorf("failed to read XML file: %w", err)
+	}
+	err = xml.Unmarshal(b, &data)
+	if err != nil {
+		return RowUsers{}, fmt.Errorf("failed to unmarshal XML data: %w", err)
+	}
+
+	return data, nil
+}
+
+// Фильтрация строк данных на основе запроса
+func filterRowsByQuery(rows []Xmluser, query string) []Xmluser {
+	if query == "" {
+		return rows
+	}
+
+	var filteredRows []Xmluser
+	for _, row := range rows {
+		// Проверка, содержится ли запрос в поле FirstName, LastName или About
+		queryMatch := strings.Contains(row.Name, query) ||
+			strings.Contains(row.About, query)
+
+		if queryMatch {
+			filteredRows = append(filteredRows, row)
 		}
 	}
-	return results
+
+	return filteredRows
 }
 
-func loadUsersFromXML(filename string) ([]User, error) {
-	xmlData, err := os.Open(filename) // Открытие XML файла
-	if err != nil {
-		return nil, err // В случае ошибки, возвращаем ошибку
-	}
-	defer xmlData.Close() // Закрытие файла после окончания работы функции
-
-	var users Users
-
-	file, err := ioutil.ReadAll(xmlData) // Чтение содержимого файла
-	if err != nil {
-		return nil, err // В случае ошибки, возвращаем ошибку
-	}
-	xml.Unmarshal(file, &users) // Разбор XML данных и сохранение результатов в структуру users
-
-	return convertXMLUsersToUsers(users.Users), nil // Преобразование пользователей из формата XML в формат User и возвращение результатов
-}
-
-func convertXMLUsersToUsers(xmlUsers []xmlUser) []User {
+// Преобразование строк данных в структуры пользователей
+func convertRowsToUsers(rows []Xmluser) []User {
 	var users []User
-	for _, xmlUser := range xmlUsers {
-		user := convertXMLUserToUser(xmlUser)
+	for _, row := range rows {
+		user := User{
+			Id:     row.Id,
+			Name:   row.Name,
+			Age:    row.Age,
+			About:  row.About,
+			Gender: row.Gender,
+		}
 		users = append(users, user)
 	}
+
 	return users
 }
 
-func convertXMLUserToUser(xmlUser xmlUser) User {
-	return User{
-		Id:     xmlUser.ID,
-		Name:   xmlUser.Name,
-		Age:    xmlUser.Age,
-		About:  xmlUser.About,
-		Gender: xmlUser.Gender,
-	}
-}
-
-func applyLimitAndOffset(result []User, limitStr, offsetStr string) []User {
-	limit, _ := strconv.Atoi(limitStr)   // Преобразование строкового значения "limitStr" в целое число
-	offset, _ := strconv.Atoi(offsetStr) // Преобразование строкового значения "offsetStr" в целое число
-
-	if limit > 0 { // Если задано ограничение
-		from := offset // Определение начального индекса
-		if from > len(result)-1 {
-			return []User{} // Если начальный индекс превышает длину результата, возвращаем пустой массив
-		} else {
-			to := offset + limit // Определение конечного индекса
-			if to > len(result) {
-				to = len(result) // Если конечный индекс превышает длину результата, устанавливаем его равным длине результата
-			}
-
-			return result[from:to] // Возвращаем срез результата с примененными ограничениями
-		}
+// Сортировка пользователей на основе заданного поля и направления
+func sortUsers(users []User, orderBy int, orderField string) ([]User, error) {
+	if orderBy == OrderByAsIs {
+		return users, nil
 	}
 
-	return result // Если ограничение не задано, возвращаем весь результат
-}
+	var isLess func(i, j User) bool
 
-func sortUsers(users []User, orderField string) {
-	switch orderField { // В зависимости от значения "orderField" выполняем сортировку пользователей
+	switch orderField {
 	case "Id":
-		sort.Slice(users, func(i, j int) bool {
-			return users[i].Id < users[j].Id
-		})
+		isLess = func(i, j User) bool {
+			return i.Id < j.Id
+		}
 	case "Age":
-		sort.Slice(users, func(i, j int) bool {
-			return users[i].Age < users[j].Age
-		})
-
-	case "Name", " ":
-		sort.Slice(users, func(i, j int) bool {
-			return users[i].Name < users[j].Name
-		})
+		isLess = func(i, j User) bool {
+			return i.Age < j.Age
+		}
+	case "Name", "":
+		isLess = func(i, j User) bool {
+			return i.Name < j.Name
+		}
 	default:
-		return
+		return nil, fmt.Errorf("invalid order field: %s", orderField)
 	}
+
+	if orderBy == orderDesc {
+		sort.Slice(users, func(i, j int) bool {
+			return isLess(users[j], users[i])
+		})
+	} else {
+		sort.Slice(users, func(i, j int) bool {
+			return isLess(users[i], users[j])
+		})
+	}
+
+	return users, nil
+}
+
+// Применение ограничения по количеству и смещению к списку пользователей
+func applyLimitOffset(users []User, limit, offset int) []User {
+	if limit <= 0 {
+		return users
+	}
+
+	from := offset
+	if from > len(users)-1 {
+		return []User{}
+	}
+
+	to := offset + limit
+	if to > len(users) {
+		to = len(users)
+	}
+
+	return users[from:to]
 }
 
 // Tests
+
 func Test_NegativeLimit(t *testing.T) {
 	searchClient := SearchClient{
 		AccessToken: "testAccessToken",
