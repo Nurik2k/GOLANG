@@ -56,7 +56,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage">
+  <component name="RunManager" selected="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -71,6 +71,18 @@
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestBadAccessToken in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestBadAccessToken\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestFatalError in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -97,7 +109,7 @@
       <pattern value="^\QTestInvalidToken\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestOffsetValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -106,7 +118,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestOffsetValidation\E$" />
+      <pattern value="^\QTestSearchServer\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestTimeOut in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -121,18 +133,6 @@
       <pattern value="^\QTestTimeOut\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestTimeout in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestTimeout\E$" />
-      <method v="2" />
-    </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$" />
@@ -144,19 +144,19 @@
     </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
   </component>

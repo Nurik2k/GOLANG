@@ -273,11 +273,42 @@ func TestTimeOut(t *testing.T) {
 	req := SearchRequest{}
 
 	_, err := searchClient.FindUsers(req)
-
 	if err != nil {
 		if err, ok := err.(net.Error); ok && err.Timeout() {
-			fmt.Errorf("timeout for %s", err.Error())
+			t.Errorf("timeout for %s", err.Error())
 		}
-		fmt.Errorf("unknown error %s", err)
+		t.Errorf("unknown error %s", err)
+	}
+}
+
+func TestBadAccessToken(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
+	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
+
+	req := SearchRequest{}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("Empty error")
+	}
+	if err.Error() != "Bad AccessToken" {
+		t.Error("Invalid error!")
+	}
+}
+
+func TestSearchServer(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
+	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
+
+	req := SearchRequest{}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("Empty error")
+	}
+	if err.Error() != "SearchServer fatal error" {
+		t.Errorf("Invalid error: %v", err.Error())
 	}
 }
