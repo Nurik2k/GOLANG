@@ -58,15 +58,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage">
-    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
@@ -85,18 +77,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestLimitHigh\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestLimitLow in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestLimitLow\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestLimitValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -123,6 +103,18 @@
       <pattern value="^\QTestOffsetValidation\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestTimeOut in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestTimeOut\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestTimeout in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
@@ -135,30 +127,21 @@
       <pattern value="^\QTestTimeout\E$" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="DIRECTORY" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestLimitHigh in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestLimitLow in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestLimitHigh in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestLimitLow in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
   </component>

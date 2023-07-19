@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -12,6 +13,7 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 )
 
 type RowUsers struct {
@@ -257,5 +259,25 @@ func TestOffsetValidation(t *testing.T) {
 	expectedErrMsg := "offset must be > 0"
 	if err.Error() != expectedErrMsg {
 		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
+	}
+}
+
+func TestTimeOut(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(1 * time.Second)
+	}))
+	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
+
+	req := SearchRequest{}
+
+	_, err := searchClient.FindUsers(req)
+
+	if err != nil {
+		if err, ok := err.(net.Error); ok && err.Timeout() {
+			fmt.Errorf("timeout for %s", err.Error())
+		}
+		fmt.Errorf("unknown error %s", err)
 	}
 }
