@@ -156,7 +156,7 @@ func sortUsers(users []User, orderBy int, orderField string, w http.ResponseWrit
 			return i.Name < j.Name
 		}
 	default:
-		sendError(w, "BadOrderField", http.StatusInternalServerError)
+		sendSearchErrorResponse(w, "BadOrderField", http.StatusInternalServerError)
 	}
 
 	if orderBy == orderDesc {
@@ -191,7 +191,7 @@ func applyLimitOffset(users []User, limit, offset int) []User {
 	return users[from:to]
 }
 
-func sendError(w http.ResponseWriter, error string, code int) {
+func sendSearchErrorResponse(w http.ResponseWriter, error string, code int) {
 	js, err := json.Marshal(SearchErrorResponse{error})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

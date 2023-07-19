@@ -7,8 +7,6 @@
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.out" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +56,15 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage">
+  <component name="RunManager" selected="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
@@ -67,7 +73,7 @@
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestLimitHigh in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestFatalError in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -76,10 +82,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestLimitHigh\E$" />
+      <pattern value="^\QTestFatalError\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestLimitValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestInvalidToken in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -88,7 +94,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestLimitValidation\E$" />
+      <pattern value="^\QTestInvalidToken\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestOffsetValidation in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -127,21 +133,30 @@
       <pattern value="^\QTestTimeout\E$" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestLimitHigh in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestTimeout in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestOffsetValidation in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestLimitValidation in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestLimitHigh in example.com/mymodule/hw4_test_coverage" />
       </list>
     </recent_temporary>
   </component>
