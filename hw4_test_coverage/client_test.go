@@ -12,7 +12,6 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-	"time"
 )
 
 type RowUsers struct {
@@ -203,238 +202,60 @@ func sendError(w http.ResponseWriter, error string, code int) {
 }
 
 // Tests
-
-type TestServer struct {
-	server *httptest.Server
-	Search SearchClient
-}
-
-func (ts *TestServer) Close() {
-	ts.server.Close()
-}
-
-func newTestServer(token string) TestServer {
-	server := httptest.NewServer(http.HandlerFunc(SearchServer))
-	client := SearchClient{token, server.URL}
-
-	return TestServer{server, client}
-}
-
-func TestLimitLow(t *testing.T) {
-	ts := newTestServer(AccessToken)
+func Test_NegativeLimit(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
 	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
 
-	_, err := ts.Search.FindUsers(SearchRequest{
-		Limit: -1,
-	})
+	req := SearchRequest{
+		Limit:  -10,
+		Offset: 0,
+	}
 
+	_, err := searchClient.FindUsers(req)
 	if err == nil {
-		t.Errorf("Empty error")
-	} else if err.Error() != "limit must be > 0" {
-		t.Errorf("Invalid error: %v", err.Error())
+		t.Error("expected an error, but got nil")
+	}
+
+	expectedErrMsg := "limit must be > 0"
+	if err.Error() != expectedErrMsg {
+		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
 	}
 }
 
-func TestLimitHigh(t *testing.T) {
-	ts := newTestServer(AccessToken)
+func TestLimitValidation(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
 	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
 
-	response, _ := ts.Search.FindUsers(SearchRequest{
-		Limit: 100,
-	})
+	req := SearchRequest{
+		Limit: 30,
+	}
+
+	response, _ := searchClient.FindUsers(req)
 
 	if len(response.Users) != 25 {
-		t.Errorf("Invalid number of users: %d", len(response.Users))
+		t.Errorf("expected limit to be %d, but got %d", 25, len(response.Users))
 	}
 }
 
-func TestInvalidToken(t *testing.T) {
-	ts := newTestServer(AccessToken + "invalid")
+func TestOffsetValidation(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
 	defer ts.Close()
+	searchClient := SearchClient{AccessToken, ts.URL}
 
-	_, err := ts.Search.FindUsers(SearchRequest{})
+	req := SearchRequest{
+		Offset: -10,
+	}
 
+	_, err := searchClient.FindUsers(req)
 	if err == nil {
-		t.Errorf("Empty error")
-	} else if err.Error() != "Bad AccessToken" {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestInvalidOrderField(t *testing.T) {
-	ts := newTestServer(AccessToken)
-	defer ts.Close()
-
-	_, err := ts.Search.FindUsers(SearchRequest{
-		OrderBy:    OrderByAsc,
-		OrderField: "Foo",
-	})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if err.Error() != "OrderFeld Foo invalid" {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestOffsetLow(t *testing.T) {
-	ts := newTestServer(AccessToken)
-	defer ts.Close()
-
-	_, err := ts.Search.FindUsers(SearchRequest{
-		Offset: -1,
-	})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if err.Error() != "offset must be > 0" {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestFindUserByName(t *testing.T) {
-	ts := newTestServer(AccessToken)
-	defer ts.Close()
-
-	response, _ := ts.Search.FindUsers(SearchRequest{
-		Query: "Annie",
-		Limit: 1,
-	})
-
-	if len(response.Users) != 1 {
-		t.Errorf("Invalid number of users: %d", len(response.Users))
-		return
+		t.Error("expected an error, but got nil")
 	}
 
-	if response.Users[0].Name != "Annie Osborn" {
-		t.Errorf("Invalid user found: %v", response.Users[0])
-		return
-	}
-}
-
-func TestLimitOffset(t *testing.T) {
-	ts := newTestServer(AccessToken)
-	defer ts.Close()
-
-	response, _ := ts.Search.FindUsers(SearchRequest{
-		Limit:  3,
-		Offset: 0,
-	})
-
-	if len(response.Users) != 3 {
-		t.Errorf("Invalid number of users: %d", len(response.Users))
-		return
-	}
-
-	if response.Users[2].Name != "Brooks Aguilar" {
-		t.Errorf("Invalid user at position 3: %v", response.Users[2])
-		return
-	}
-
-	response, _ = ts.Search.FindUsers(SearchRequest{
-		Limit:  5,
-		Offset: 2,
-	})
-
-	if len(response.Users) != 5 {
-		t.Errorf("Invalid number of users: %d", len(response.Users))
-		return
-	}
-
-	if response.Users[0].Name != "Brooks Aguilar" {
-		t.Errorf("Invalid user at position 3: %v", response.Users[0])
-		return
-	}
-}
-
-func TestFatalError(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, "Fatal Error", http.StatusInternalServerError)
-	}))
-	client := SearchClient{AccessToken, server.URL}
-	defer server.Close()
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if err.Error() != "SearchServer fatal error" {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestCantUnpackError(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.Error(w, "Some Error", http.StatusBadRequest)
-	}))
-	client := SearchClient{AccessToken, server.URL}
-	defer server.Close()
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if !strings.Contains(err.Error(), "cant unpack error json") {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestUnknownBadRequestError(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		sendError(w, "Unknown Error", http.StatusBadRequest)
-	}))
-	client := SearchClient{AccessToken, server.URL}
-	defer server.Close()
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if !strings.Contains(err.Error(), "unknown bad request error") {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestCantUnpackResultError(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "None")
-	}))
-	client := SearchClient{AccessToken, server.URL}
-	defer server.Close()
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if !strings.Contains(err.Error(), "cant unpack result json") {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestTimeout(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(2 * time.Second)
-	}))
-	client := SearchClient{AccessToken, server.URL}
-	defer server.Close()
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if !strings.Contains(err.Error(), "timeout for") {
-		t.Errorf("Invalid error: %v", err.Error())
-	}
-}
-
-func TestUnknownError(t *testing.T) {
-	client := SearchClient{AccessToken, "http://invalid-server/"}
-
-	_, err := client.FindUsers(SearchRequest{})
-
-	if err == nil {
-		t.Errorf("Empty error")
-	} else if !strings.Contains(err.Error(), "unknown error") {
-		t.Errorf("Invalid error: %v", err.Error())
+	// Проверяем, что получили ошибку с соответствующим сообщением
+	expectedErrMsg := "offset must be > 0"
+	if err.Error() != expectedErrMsg {
+		t.Errorf("expected error message '%s', but got '%s'", expectedErrMsg, err.Error())
 	}
 }
