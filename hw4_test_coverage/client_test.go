@@ -56,7 +56,7 @@ func SearchServer(w http.ResponseWriter, r *http.Request) {
 	// Сортировка пользователей на основе заданного поля и направления
 	orderedUsers, err := sortUsers(users, orderBy, orderField)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
