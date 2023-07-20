@@ -284,7 +284,7 @@ func TestTimeOut(t *testing.T) {
 func TestBadAccessToken(t *testing.T) {
 	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
 	defer ts.Close()
-	searchClient := SearchClient{AccessToken, ts.URL}
+	searchClient := SearchClient{AccessToken + "Invalid", ts.URL}
 
 	req := SearchRequest{}
 
@@ -298,7 +298,9 @@ func TestBadAccessToken(t *testing.T) {
 }
 
 func TestSearchServer(t *testing.T) {
-	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Fatal error", http.StatusInternalServerError)
+	}))
 	defer ts.Close()
 	searchClient := SearchClient{AccessToken, ts.URL}
 
