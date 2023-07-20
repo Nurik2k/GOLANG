@@ -12,8 +12,8 @@ example.com/mymodule/hw4_test_coverage/client.go:98.3,98.50 1 0
 example.com/mymodule/hw4_test_coverage/client.go:100.2,103.25 3 1
 example.com/mymodule/hw4_test_coverage/client.go:104.31,105.44 1 1
 example.com/mymodule/hw4_test_coverage/client.go:106.38,107.53 1 1
-example.com/mymodule/hw4_test_coverage/client.go:108.29,111.17 3 0
-example.com/mymodule/hw4_test_coverage/client.go:111.17,113.4 1 0
+example.com/mymodule/hw4_test_coverage/client.go:108.29,111.17 3 1
+example.com/mymodule/hw4_test_coverage/client.go:111.17,113.4 1 1
 example.com/mymodule/hw4_test_coverage/client.go:114.3,114.44 1 0
 example.com/mymodule/hw4_test_coverage/client.go:114.44,116.4 1 0
 example.com/mymodule/hw4_test_coverage/client.go:117.3,117.73 1 0

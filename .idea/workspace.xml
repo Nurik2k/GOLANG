@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="" />
+    <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.out" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -53,7 +58,7 @@
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage (1)">
+  <component name="RunManager" selected="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
@@ -62,7 +67,7 @@
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestBadAccessToken in example.com/mymodule/hw4_test_coverage (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCantUnpackError in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -71,10 +76,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestBadAccessToken\E$" />
+      <pattern value="^\QTestCantUnpackError\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestBadAccessToken in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -83,34 +88,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestBadAccessToken\E$" />
+      <pattern value="^\QTestCantUnpackErrorJson\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestFatalError in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestFatalError\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestInvalidToken in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestInvalidToken\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -122,21 +103,45 @@
       <pattern value="^\QTestSearchServer\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestSearchServer\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestTimeOut in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestTimeOut\E$" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage (1)" />
-      <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestCantUnpackError in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" />
+      <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage (1)" />
-        <item itemvalue="Go Test.TestBadAccessToken in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestInvalidToken in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestFatalError in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestCantUnpackError in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" />
+        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" />
       </list>
     </recent_temporary>
   </component>

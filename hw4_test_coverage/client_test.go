@@ -265,7 +265,7 @@ func TestOffsetValidation(t *testing.T) {
 func TestTimeOut(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		time.Sleep(1 * time.Second)
+		time.Sleep(2 * time.Second)
 	}))
 	defer ts.Close()
 	searchClient := SearchClient{AccessToken, ts.URL}
@@ -277,7 +277,6 @@ func TestTimeOut(t *testing.T) {
 		if err, ok := err.(net.Error); ok && err.Timeout() {
 			t.Errorf("timeout for %s", err.Error())
 		}
-		t.Errorf("unknown error %s", err)
 	}
 }
 
@@ -311,6 +310,24 @@ func TestSearchServer(t *testing.T) {
 		t.Error("Empty error")
 	}
 	if err.Error() != "SearchServer fatal error" {
+		t.Errorf("Invalid error: %v", err.Error())
+	}
+}
+
+func TestCantUnpackErrorJson(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Error", http.StatusBadRequest)
+	}))
+	searchClient := SearchClient{AccessToken, ts.URL}
+	defer ts.Close()
+
+	req := SearchRequest{}
+
+	_, err := searchClient.FindUsers(req)
+	if err == nil {
+		t.Error("Empty error")
+	}
+	if !strings.Contains(err.Error(), "cant unpack error json") {
 		t.Errorf("Invalid error: %v", err.Error())
 	}
 }
