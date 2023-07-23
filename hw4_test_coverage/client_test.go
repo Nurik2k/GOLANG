@@ -331,3 +331,38 @@ func TestCantUnpackErrorJson(t *testing.T) {
 		t.Errorf("Invalid error: %v", err.Error())
 	}
 }
+
+func TestFindUser(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(SearchServer))
+	searchClient := SearchClient{AccessToken, ts.URL}
+	defer ts.Close()
+
+	req := SearchRequest{
+		Query: "Hilda",
+		Limit: 1,
+	}
+
+	user, err := searchClient.FindUsers(req)
+	if err != nil {
+		t.Error(err.Error())
+	}
+	if len(user.Users) != 1 {
+		t.Error("Limit is exceeded")
+	}
+	if user.Users[0].Name != "Hilda" {
+		t.Error("No such user")
+	}
+}
+
+func TestErrorBadOrderField(t *testing.T) {
+	ts := httptest.NewServer()
+	defer ts.Close()
+
+	req := SearchRequest{
+		OrderField: ErrorBadOrderField,
+	}
+
+	if req.OrderField == "ErrorBadOrderField" {
+		t.Error("OrderField invalid")
+	}
+}

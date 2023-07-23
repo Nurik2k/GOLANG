@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">example.com/mymodule/hw4_test_coverage/client.go (85.7%)</option>
+				<option value="file0">example.com/mymodule/hw4_test_coverage/client.go (88.1%)</option>
 				
 				</select>
 			</div>
@@ -198,7 +198,7 @@ func (srv *SearchClient) FindUsers(req SearchRequest) (*SearchResponse, error) <
         if len(data) == req.Limit </span><span class="cov8" title="1">{
                 result.NextPage = true
                 result.Users = data[0 : len(data)-1]
-        }</span> else<span class="cov0" title="0"> {
+        }</span> else<span class="cov8" title="1"> {
                 result.Users = data[0:len(data)]
         }</span>
 

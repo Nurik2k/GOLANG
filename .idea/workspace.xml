@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fdb58aa5-faa1-4967-8190-f0efc7f33d52" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.html" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw4_test_coverage/cover.out" beforeDir="false" afterPath="$PROJECT_DIR$/hw4_test_coverage/cover.out" afterDir="false" />
@@ -34,49 +35,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;S:/GOLANG/Web&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "S:/GOLANG/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="S:\GOLANG\Web" />
       <recent name="S:\GOLANG\PlayTests" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage">
+  <component name="RunManager" selected="Go Test.TestErrorBadOrderField in example.com/mymodule/hw4_test_coverage">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw1_tree" />
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/../GOLANG|$PROJECT_DIR$/hw1_tree/main.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestCantUnpackError in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="GOLANG" />
-      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="example.com/mymodule/hw4_test_coverage" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestCantUnpackError\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -91,7 +88,7 @@
       <pattern value="^\QTestCantUnpackErrorJson\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestErrorBadOrderField in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -100,10 +97,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestSearchServer\E$" />
+      <pattern value="^\QTestErrorBadOrderField\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestFindUser in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="GOLANG" />
       <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
       <root_directory value="$PROJECT_DIR$" />
@@ -112,7 +109,19 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestSearchServer\E$" />
+      <pattern value="^\QTestFindUser\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestFindUserByName in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$/hw4_test_coverage" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="example.com/mymodule/hw4_test_coverage" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestFindUserByName\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestTimeOut in example.com/mymodule/hw4_test_coverage" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -127,21 +136,30 @@
       <pattern value="^\QTestTimeOut\E$" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="GOLANG" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Go Build.go build main.go" />
-      <item itemvalue="Go Test.TestCantUnpackError in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestErrorBadOrderField in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestFindUser in example.com/mymodule/hw4_test_coverage" />
+      <item itemvalue="Go Test.TestFindUserByName in example.com/mymodule/hw4_test_coverage" />
       <item itemvalue="Go Test.TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" />
       <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
-      <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestErrorBadOrderField in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestFindUser in example.com/mymodule/hw4_test_coverage" />
+        <item itemvalue="Go Test.TestFindUserByName in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestTimeOut in example.com/mymodule/hw4_test_coverage" />
         <item itemvalue="Go Test.TestCantUnpackErrorJson in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestCantUnpackError in example.com/mymodule/hw4_test_coverage" />
-        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (2)" />
-        <item itemvalue="Go Test.TestSearchServer in example.com/mymodule/hw4_test_coverage (1)" />
       </list>
     </recent_temporary>
   </component>

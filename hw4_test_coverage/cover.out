@@ -21,5 +21,5 @@ example.com/mymodule/hw4_test_coverage/client.go:120.2,122.16 3 1
 example.com/mymodule/hw4_test_coverage/client.go:122.16,124.3 1 0
 example.com/mymodule/hw4_test_coverage/client.go:126.2,127.28 2 1
 example.com/mymodule/hw4_test_coverage/client.go:127.28,130.3 2 1
-example.com/mymodule/hw4_test_coverage/client.go:130.8,132.3 1 0
+example.com/mymodule/hw4_test_coverage/client.go:130.8,132.3 1 1
 example.com/mymodule/hw4_test_coverage/client.go:134.2,134.21 1 1
