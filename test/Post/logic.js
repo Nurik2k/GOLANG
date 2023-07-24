@@ -1,12 +1,12 @@
 document.getElementById("login-form").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    const username = document.getElementById("username").value;
+    const login = document.getElementById("login").value;
     const password = document.getElementById("password").value;
 
     // Создаем объект с данными для отправки на сервер
     const data = {
-        username: username,
+        login: login,
       password: password
     };
 
