@@ -10,19 +10,24 @@ document.getElementById("login-form").addEventListener("submit", function(event)
       password: password
     };
 
-    // Отправляем POST-запрос на сервер Golang
-    fetch("/login", {
+    const url = "http://localhost:8080/login";
+
+    const options = {
       method: "POST",
+      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(data)
-    })
+      mode: "no-cors" // Set 'no-cors' mode to bypass CORS restrictions"
+    };
+
+    // Отправляем POST-запрос на сервер Golang
+    fetch(url, options)
     .then(response => response.json())
     .then(data => {
       alert(data.message); // Выводим сообщение от сервера
     })
     .catch(error => {
-      console.error("Ошибка:", error);
+      console.log("Ошибка:", error);
     });
   });

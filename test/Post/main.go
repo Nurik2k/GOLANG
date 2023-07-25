@@ -7,12 +7,12 @@ import (
 )
 
 type User struct {
-	Username string `json:"username"`
+	Login    string `json:"login"`
 	Password string `json:"password"`
 }
 
 func main() {
-	http.HandleFunc("/login", SignIn)
+	http.HandleFunc("/login", SignUp)
 	fmt.Println("Сервер на порту 8080")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -21,7 +21,7 @@ func main() {
 
 }
 
-func SignIn(w http.ResponseWriter, r *http.Request) {
+func SignUp(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/login" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
@@ -38,8 +38,15 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("User: ", user)
+	fmt.Println("Login: ", user.Login, "\n",
+		"Password: ", user.Password)
+
+	jsonM, err := json.Marshal(&user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Data allowed!"))
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonM)
 }
