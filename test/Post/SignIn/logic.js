@@ -7,25 +7,22 @@ document.getElementById("login-form").addEventListener("submit", function (event
     // Создаем объект с данными для отправки на сервер
     const data = {
         login: login,
-        password: password
+        password: password,
       };
 
-    const url = "http://localhost:8080/login";
+    const url = "http://localhost:8080/SignIn";
 
     const options = {
-        method: "POST",
+        method: "GET",
         body: JSON.stringify(data),
-        headers: {
-            "Content-Type": "application/json"
-        },
-        mode: "no-cors"
     };
 
   // Отправляем POST-запрос на сервер Golang
-    fetch(url, options)
-    .then(response => response.json())
-    .then(data =>{window.location.href = "Hello.html"})
-    .catch(error => {
-      console.log("Ошибка:", error);
-    });
+    fetch(url, options) 
+      .then(response => {console.log(response)})
+      .then(data=>{window.location.href = "/assets/GetUsers/UsersList.html"})
+      .catch(error => {
+        console.log("Ошибка:", error);
+      });
 });
+

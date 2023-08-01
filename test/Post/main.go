@@ -3,19 +3,25 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"post/handler"
 )
 
-type User struct {
-	Login    string `json:"login"`
-	Password string `json:"password"`
-}
-
 func main() {
-	http.HandleFunc("/login", SignUp)
+	Routes()
+
 	fmt.Println("Сервер на порту 8080")
+
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println("Ошибка при запуске сервера")
 	}
+}
 
+func Routes() {
+	var h handler.Handler
+	http.HandleFunc("/SignIn", h.SignIn)
+	http.HandleFunc("/AddUser", h.AddUser)
+	http.HandleFunc("/Users", h.GetUsers)
+	http.HandleFunc("/EditUser", h.EditUsers)
+	http.HandleFunc("/DeleteUser", h.DeleteUser)
 }
