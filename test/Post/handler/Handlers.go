@@ -7,48 +7,35 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
 
 type User struct {
-	Id         string `json:"id"`
-	Login      string `json:"login"`
-	Password   string `json:"password"`
-	First_Name string `json:"first_name"`
-	Name       string `json:"name"`
-	Last_Name  string `json:"last_name"`
-	Birthday   string `json:"birthday"`
+	Id        string `json:"id"`
+	Login     string `json:"login"`
+	Password  string `json:"password"`
+	FirstName string `json:"first_name"`
+	Name      string `json:"name"`
+	LastName  string `json:"last_name"`
+	Birthday  string `json:"birthday"`
 }
 
-// Handlers
 type Handler struct {
-	connectionString string
-	ctx              context.Context
-	db               *sql.DB
+	db *sql.DB
 }
 
-func NewHandler(db *sql.DB) (Handler, error) {
-	var err error
-
-	nh := Handler{
-		connectionString: "Server=localhost;Database=Users;User Id=sa;Password=yourStrong(!)Password;port=1433;MultipleActiveResultSets=true;TrustServerCertificate=true;",
+func ConnectToDB(db1 *sql.DB) (*Handler, error) {
+	handler := &Handler{
+		db: db1,
 	}
 
-	db, err = sql.Open("sqlserver", nh.connectionString)
+	err := handler.db.Ping()
 	if err != nil {
-		return nh, err
-	}
-	defer db.Close()
-	ctx := context.Background()
-
-	err = db.PingContext(ctx)
-	if err != nil {
-		return nh, err
+		return nil, err
 	}
 
-	return nh, nil
+	return handler, nil
 }
 
 func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
@@ -72,25 +59,27 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	h, err = NewHandler(h.db)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
 	var user User
+
+	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	signed, err := h.DBSignIn(user.Login, user.Password)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
+		return
 	}
 
 	jsonM, err := json.Marshal(signed)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonM)
 }
 
@@ -118,25 +107,23 @@ func (h Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 
 	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-
-	h, err = NewHandler(h.db)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	usere, err := h.DBAddUser(user)
 	if err != nil {
-		http.Error(w, err.Error(), 404)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	jsonM, err := json.Marshal(usere)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonM)
 }
 
@@ -154,25 +141,20 @@ func (h Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var err error
-
-	nh, err := NewHandler(h.db)
+	users, err := h.DBGetUsers()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-
-	users, err := nh.DBGetUsers()
-	if err != nil {
-		http.Error(w, err.Error(), 404)
+		return
 	}
 
 	jsonM, err := json.Marshal(users)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonM)
 }
 
@@ -195,25 +177,23 @@ func (h Handler) EditUsers(w http.ResponseWriter, r *http.Request) {
 
 	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-
-	h, err = NewHandler(h.db)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	editUser, err := h.DBEditUser(user)
 	if err != nil {
-		http.Error(w, err.Error(), 400)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	jsonM, err := json.Marshal(editUser)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonM)
 }
 
@@ -236,95 +216,95 @@ func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-	}
-
-	h, err = NewHandler(h.db)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	userDeleted, err := h.DbDeleteUser(user.Id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
 	jsonM, err := json.Marshal(userDeleted)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	w.Write(jsonM)
 }
 
 // DB
-
 func (h Handler) DBSignIn(login, password string) (tf bool, err error) {
-	err = h.db.PingContext(h.ctx)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	ctx := context.Background()
 
-	tsql := "Select Password from GoUser where Login = @Login"
+	tsql := "SELECT Password FROM GoUser WHERE Login = @Login"
 
-	rows, err := h.db.QueryContext(h.ctx, tsql)
+	rows, err := h.db.QueryContext(ctx, tsql, sql.Named("Login", login))
 	if err != nil {
 		return false, err
 	}
 	defer rows.Close()
 
-	var user User
+	var Password string
 
-	for rows.Next() {
-		err := rows.Scan(&user.Login, &user.Password)
+	if rows.Next() {
+		err := rows.Scan(&Password)
 		if err != nil {
 			return false, err
 		}
 	}
 
-	if !strings.Contains(user.Login, login) && !strings.Contains(user.Password, password) {
+	if err := rows.Err(); err != nil {
 		return false, err
+	}
+
+	if Password != password {
+		return false, nil
 	}
 
 	return true, nil
 }
 
-func (h Handler) DBGetUsers() (users []User, err error) {
-	err = h.db.PingContext(h.ctx)
-	if err != nil {
-		return nil, err
-	}
-	tsql := "SELECT * FROM GoUser"
+func (h Handler) DBGetUsers() ([]User, error) {
+	ctx := context.Background()
 
-	rows, err := h.db.QueryContext(h.ctx, tsql)
+	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser"
+
+	rows, err := h.db.QueryContext(ctx, tsql)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	var user User
+	var users []User
 
 	for rows.Next() {
-
-		err := rows.Scan(&user.Id, &user.Login, &user.Password, &user.First_Name, &user.Name, &user.Last_Name, &user.Birthday)
+		var user User
+		err := rows.Scan(&user.Id, &user.Login, &user.Password, &user.FirstName, &user.Name, &user.LastName, &user.Birthday)
 		if err != nil {
 			return nil, err
 		}
+		users = append(users, user)
 	}
 
-	users = append(users, user)
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 
 	return users, nil
 }
 
 func (h Handler) DBAddUser(user User) (users []User, err error) {
+	ctx := context.Background()
 
 	if h.db == nil {
 		return nil, err
 	}
 
-	err = h.db.PingContext(h.ctx)
+	err = h.db.PingContext(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -337,17 +317,18 @@ func (h Handler) DBAddUser(user User) (users []User, err error) {
 	}
 	defer stmt.Close()
 
-	row := stmt.QueryRowContext(
-		h.ctx,
+	_, err = stmt.ExecContext(
+		ctx,
 		sql.Named("Login", user.Login),
 		sql.Named("Password", user.Password),
-		sql.Named("First_Name", user.First_Name),
+		sql.Named("First_Name", user.FirstName),
 		sql.Named("Name", user.Name),
-		sql.Named("Last_Name", user.Last_Name),
+		sql.Named("Last_Name", user.LastName),
 		sql.Named("Birthday", user.Birthday),
 	)
-
-	fmt.Println(row)
+	if err != nil {
+		return nil, err
+	}
 
 	users = append(users, user)
 
@@ -355,31 +336,34 @@ func (h Handler) DBAddUser(user User) (users []User, err error) {
 }
 
 func (h Handler) DBEditUser(user User) (users []User, err error) {
+	ctx := context.Background()
 
-	err = h.db.PingContext(h.ctx)
+	err = h.db.PingContext(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	tsql := fmt.Sprintf("UPDATE GoUser SET Login = @Login, Password = @Password, First_Name = @First_Name, Name = @Name, Last_name = @Last_name, Birthday = @Birthday WHERE Id = @Id")
 
-	// Execute non-query with named parameters
-	result, err := h.db.ExecContext(
-		h.ctx,
-		tsql,
+	stmt, err := h.db.Prepare(tsql)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer stmt.Close()
+
+	_, err = stmt.ExecContext(
+		ctx,
 		sql.Named("Id", user.Id),
 		sql.Named("Login", user.Login),
 		sql.Named("Password", user.Password),
-		sql.Named("First_Name", user.First_Name),
+		sql.Named("First_Name", user.FirstName),
 		sql.Named("Name", user.Name),
-		sql.Named("Last_Name", user.Last_Name),
+		sql.Named("Last_Name", user.LastName),
 		sql.Named("Birthday", user.Birthday),
 	)
 	if err != nil {
 		return nil, err
 	}
-
-	result.RowsAffected()
 
 	users = append(users, user)
 
@@ -387,24 +371,23 @@ func (h Handler) DBEditUser(user User) (users []User, err error) {
 }
 
 func (h Handler) DbDeleteUser(id string) (string, error) {
-	err := h.db.PingContext(h.ctx)
+	ctx := context.Background()
+
+	err := h.db.PingContext(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	tsql := fmt.Sprintf("DELETE FROM GoUser WHERE Id = @Id;")
 
-	// Execute non-query with named parameters
-	result, err := h.db.ExecContext(h.ctx, tsql, sql.Named("Id", id))
+	_, err = h.db.ExecContext(ctx, tsql, sql.Named("Id", id))
 	if err != nil {
 		return "", err
 	}
-	result.RowsAffected()
 
 	return "Deleted", nil
 }
 
-// Functions
 func enableCors(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
