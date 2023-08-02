@@ -1,4 +1,7 @@
-const baseUrl = "http://localhost:8080/Users"; // Replace with your backend API URL
+// script.js
+
+const baseUrl = "http://localhost:8080/Users";
+const deleteUrl = "http://localhost:8080/DeleteUser";
 
 function displayUsers() {
   fetch(baseUrl, {
@@ -50,8 +53,10 @@ function displayUsers() {
         actionsCell.appendChild(deleteButton);
 
         const updateButton = document.createElement("button");
-        updateButton.textContent = "Update";
-        updateButton.addEventListener("click", () => updateUser(user.id));
+        updateButton.textContent = "Edit";
+        updateButton.addEventListener("click", () => {
+          window.location.href = `file:///s%3A/GOLANG/test/Post/PutUser/edit.html?id=${user.id}`;
+        });
         actionsCell.appendChild(updateButton);
       });
     })
@@ -59,36 +64,16 @@ function displayUsers() {
 }
 
 // ... (deleteUser and updateUser functions remain unchanged)
-const deleteUrl = "http://localhost:8080/DeleteUser";
 function deleteUser(userId) {
   if (confirm("Are you sure you want to delete this user?")) {
     fetch(`${deleteUrl}/${userId}`, {
       method: "DELETE",
-    })
-      .then(() => displayUsers())
-      .catch((error) => console.error("Error deleting user:", error));
-  }
-}
-const EditUrl = "http://localhost:8080/EditUser";
-function updateUser(userId) {
-  const newLogin = prompt("Enter new login:");
-  const newPassword = prompt("Enter new password:");
-
-  if (newLogin && newPassword) {
-    const userData = {
-      login: newLogin,
-      password: newPassword,
-    };
-
-    fetch(`${EditUrl}/${userId}`, {
-      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(userData),
     })
       .then(() => displayUsers())
-      .catch((error) => console.error("Error updating user:", error));
+      .catch((error) => console.error("Error deleting user:", error));
   }
 }
 

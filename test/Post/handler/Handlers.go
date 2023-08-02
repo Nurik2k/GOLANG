@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	_ "github.com/microsoft/go-mssqldb"
 )
@@ -158,12 +159,51 @@ func (h Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) EditUsers(w http.ResponseWriter, r *http.Request) {
+func (h Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Methods", "GET")
+	enableCors(w)
+
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) != 3 || parts[1] != "GetUserById" {
+		http.Error(w, "404 Page not found!", http.StatusNotFound)
+		return
+	}
+
+	userID := parts[2]
+
+	if r.Method != http.MethodGet {
+		http.Error(w, "This request not GET!", http.StatusMethodNotAllowed)
+		return
+	}
+
+	user, err := h.DbGetUserById(userID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	jsonM, err := json.Marshal(user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonM)
+}
+
+func (h Handler) EditUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	enableCors(w)
 
-	if r.URL.Path != "/EditUser" {
-		http.Error(w, "404 Page not found!", http.StatusNotFound)
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 
@@ -172,17 +212,25 @@ func (h Handler) EditUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var user User
-	var err error
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) != 3 || parts[1] != "EditUser" {
+		http.Error(w, "404 Page not found!", http.StatusNotFound)
+		return
+	}
 
-	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
+	userID := parts[2]
+
+	var user User
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
+	user.Id = userID
+
 	editUser, err := h.DBEditUser(user)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
@@ -201,25 +249,27 @@ func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	enableCors(w)
 
-	if r.URL.Path != "/DeleteUser" {
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) != 3 || parts[1] != "DeleteUser" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
+
+	userID := parts[2]
 
 	if r.Method != http.MethodDelete {
 		http.Error(w, "This request not Delete!", http.StatusMethodNotAllowed)
 		return
 	}
 
-	var user User
 	var err error
 
-	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	userDeleted, err := h.DbDeleteUser(user.Id)
+	userDeleted, err := h.DbDeleteUser(userID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -295,6 +345,37 @@ func (h Handler) DBGetUsers() ([]User, error) {
 	}
 
 	return users, nil
+}
+
+func (h Handler) DbGetUserById(id string) (user User, err error) {
+	ctx := context.Background()
+
+	if h.db == nil {
+		return user, err
+	}
+
+	err = h.db.PingContext(ctx)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser WHERE Id = @Id"
+
+	rows, err := h.db.QueryContext(ctx, tsql, sql.Named("Id", id))
+	if err != nil {
+		return user, err
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		err := rows.Scan(&user.Id, &user.Login, &user.Password, &user.FirstName, &user.Name, &user.LastName, &user.Birthday)
+		if err != nil {
+			return user, err
+		}
+	}
+
+	return user, nil
+
 }
 
 func (h Handler) DBAddUser(user User) (users []User, err error) {

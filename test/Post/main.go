@@ -22,8 +22,9 @@ func main() {
 	http.HandleFunc("/SignIn", h.SignIn)
 	http.HandleFunc("/AddUser", h.AddUser)
 	http.HandleFunc("/Users", h.GetUsers)
-	http.HandleFunc("/EditUser", h.EditUsers)
-	http.HandleFunc("/DeleteUser", h.DeleteUser)
+	http.HandleFunc("/GetUserById/", h.GetUserById)
+	http.HandleFunc("/EditUser/", h.EditUser)
+	http.HandleFunc("/DeleteUser/", h.DeleteUser)
 
 	log.Println("Server listening on port 8080")
 	http.ListenAndServe(":8080", nil)

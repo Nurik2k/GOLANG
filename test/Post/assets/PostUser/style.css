@@ -75,25 +75,21 @@ ul.menu-main {
   margin: 0;
 }
 
-/* Display the menu items horizontally */
 ul.menu-main li {
   display: inline-block;
-  margin-right: 20px; /* Adjust as needed to create space between menu items */
+  margin-right: 20px;
 }
 
-/* Remove the underline from anchor links */
 ul.menu-main li a {
   text-decoration: none;
 }
 
-/* Add some basic styling to anchor links */
 ul.menu-main li a {
-  color: #333; /* Change the color as per your design */
-  font-size: 16px; /* Adjust the font size as needed */
+  color: #333; 
+  font-size: 16px;
   font-weight: bold;
 }
 
-/* Add hover effect on anchor links */
 ul.menu-main li a:hover {
-  color: #007bff; /* Change the color for hover effect */
+  color: #007bff; 
 }
