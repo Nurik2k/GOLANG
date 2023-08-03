@@ -67,7 +67,7 @@ func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.URL.Path != "/user" {
+	if r.URL.Path != "/login" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -324,6 +324,11 @@ type DbInterface interface {
 func (db *DbStore) SignIn(login, password string) (tf bool, err error) {
 	ctx := context.Background()
 
+	err = db.db.PingContext(ctx)
+	if err != nil {
+		return false, err
+	}
+
 	tsql := "SELECT Password FROM GoUser WHERE Login = @Login"
 
 	row := db.db.QueryRowContext(ctx, tsql, sql.Named("Login", login))
@@ -352,6 +357,11 @@ func (db *DbStore) SignIn(login, password string) (tf bool, err error) {
 func (db *DbStore) Get() ([]User, error) {
 	ctx := context.Background()
 
+	err := db.db.PingContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser"
 
 	rows, err := db.db.QueryContext(ctx, tsql)
@@ -377,19 +387,21 @@ func (db *DbStore) Get() ([]User, error) {
 		return nil, err
 	}
 
-	return users, nil
+	limitedUsers := applyLimitOffset(users, 25, 0)
+
+	return limitedUsers, nil
 }
 
-func (db *DbStore) GetById(id string) (user User, err error) {
+func (db *DbStore) GetById(id string) (user *User, err error) {
 	ctx := context.Background()
-
-	if db.db == nil {
-		return user, err
-	}
 
 	err = db.db.PingContext(ctx)
 	if err != nil {
-		log.Fatal(err.Error())
+		return user, err
+	}
+
+	if db.db == nil {
+		return user, err
 	}
 
 	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser WHERE Id = @Id"
@@ -409,12 +421,17 @@ func (db *DbStore) GetById(id string) (user User, err error) {
 func (db *DbStore) Create(user *User) (err error) {
 	ctx := context.Background()
 
+	err = db.db.PingContext(ctx)
+	if err != nil {
+		return err
+	}
+
 	if db.db == nil {
 		return err
 	}
 
 	//Запрос return @Id. user.Id = @Id
-	tsql := "INSERT INTO GoUser(Login, Password, First_Name, Name, Last_Name, Birthday) VALUES(@Login, @Password, @First_Name, @Name, @Last_Name, @Birthday);"
+	tsql := "INSERT INTO GoUser(Login, Password, First_Name, Name, Last_Name, Birthday) OUTPUT INSERTED.@Id VALUES(@Login, @Password, @First_Name, @Name, @Last_Name, @Birthday);"
 
 	stmt, err := db.db.Prepare(tsql)
 	if err != nil {
@@ -424,6 +441,7 @@ func (db *DbStore) Create(user *User) (err error) {
 
 	_, err = stmt.ExecContext(
 		ctx,
+		sql.Named("Id", user.Id),
 		sql.Named("Login", user.Login),
 		sql.Named("Password", user.Password),
 		sql.Named("First_Name", user.FirstName),
@@ -440,6 +458,11 @@ func (db *DbStore) Create(user *User) (err error) {
 
 func (db *DbStore) Edit(user *User) (err error) {
 	ctx := context.Background()
+
+	err = db.db.PingContext(ctx)
+	if err != nil {
+		return err
+	}
 
 	tsql := fmt.Sprintf("UPDATE GoUser SET Login = @Login, Password = @Password, First_Name = @First_Name, Name = @Name, Last_name = @Last_name, Birthday = @Birthday WHERE Id = @Id")
 
@@ -469,9 +492,14 @@ func (db *DbStore) Edit(user *User) (err error) {
 func (db *DbStore) Delete(id string) error {
 	ctx := context.Background()
 
+	err := db.db.PingContext(ctx)
+	if err != nil {
+		return err
+	}
+
 	tsql := fmt.Sprintf("DELETE FROM GoUser WhERE Id = @Id;")
 
-	_, err := db.db.ExecContext(ctx, tsql, sql.Named("Id", id))
+	_, err = db.db.ExecContext(ctx, tsql, sql.Named("Id", id))
 	if err != nil {
 		return err
 	}
@@ -479,6 +507,7 @@ func (db *DbStore) Delete(id string) error {
 	return nil
 }
 
+// other Functions
 func enableCors(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
@@ -497,4 +526,22 @@ func (h Handler) Routes() *mux.Router {
 	log.Println("Server listening on port 8080")
 	//log
 	return r
+}
+
+func applyLimitOffset(users []User, limit, offset int) []User {
+	if limit <= 0 {
+		return users
+	}
+
+	from := offset
+	if from > len(users)-1 {
+		return []User{}
+	}
+
+	to := offset + limit
+	if to > len(users) {
+		to = len(users)
+	}
+
+	return users[from:to]
 }

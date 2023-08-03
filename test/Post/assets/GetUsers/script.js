@@ -55,7 +55,7 @@ function displayUsers() {
         const updateButton = document.createElement("button");
         updateButton.textContent = "Edit";
         updateButton.addEventListener("click", () => {
-          window.location.href = `file:///s%3A/GOLANG/test/Post/PutUser/edit.html?id=${user.id}`;
+          window.location.href = `file:///s%3A/GOLANG/test/Post/assets/PutUser/edit.html?id=${user.id}`;
         });
         actionsCell.appendChild(updateButton);
       });

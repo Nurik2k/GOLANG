@@ -1,5 +1,4 @@
 const baseUrl = "http://localhost:8080/user";
-const editUrl = "http://localhost:8080/user";
 
 function getUserById(userId) {
   fetch(`${baseUrl}/${userId}`, {
@@ -35,7 +34,7 @@ function updateUser(userId, editForm) {
     birthday: editForm.birthday.value,
   };
 
-  fetch(`${editUrl}/${userId}`, {
+  fetch(`${baseUrl}/${userId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

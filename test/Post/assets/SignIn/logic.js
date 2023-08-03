@@ -10,7 +10,7 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: password,
       };
 
-    const url = "http://localhost:8080/user";
+    const url = "http://localhost:8080/login";
 
     const options = {
         method: "POST",
