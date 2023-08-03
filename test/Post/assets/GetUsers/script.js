@@ -1,7 +1,7 @@
 // script.js
 
-const baseUrl = "http://localhost:8080/Users";
-const deleteUrl = "http://localhost:8080/DeleteUser";
+const baseUrl = "http://localhost:8080/users";
+const deleteUrl = "http://localhost:8080/user";
 
 function displayUsers() {
   fetch(baseUrl, {

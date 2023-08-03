@@ -1,5 +1,5 @@
-const baseUrl = "http://localhost:8080/GetUserById";
-const editUrl = "http://localhost:8080/EditUser";
+const baseUrl = "http://localhost:8080/user";
+const editUrl = "http://localhost:8080/user";
 
 function getUserById(userId) {
   fetch(`${baseUrl}/${userId}`, {

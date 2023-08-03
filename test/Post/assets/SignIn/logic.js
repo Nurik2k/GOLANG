@@ -10,10 +10,10 @@ document.getElementById("login-form").addEventListener("submit", function (event
         password: password,
       };
 
-    const url = "http://localhost:8080/SignIn";
+    const url = "http://localhost:8080/user";
 
     const options = {
-        method: "GET",
+        method: "POST",
     };
 
   // Отправляем POST-запрос на сервер Golang

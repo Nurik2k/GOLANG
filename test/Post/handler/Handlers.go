@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gorilla/mux"
 	_ "github.com/microsoft/go-mssqldb"
 )
 
@@ -22,16 +23,21 @@ type User struct {
 	Birthday  string `json:"birthday"`
 }
 
+// Есть пакет handler который отвечает только за Handlers, нужен пакет DBStore
 type Handler struct {
+	dbs *DbStore //DBStore
+}
+
+type DbStore struct {
 	db *sql.DB
 }
 
-func ConnectToDB(db1 *sql.DB) (*Handler, error) {
+func NewHandler(dbs *DbStore) (*Handler, error) {
 	handler := &Handler{
-		db: db1,
+		dbs: dbs,
 	}
 
-	err := handler.db.Ping()
+	err := handler.dbs.db.Ping()
 	if err != nil {
 		return nil, err
 	}
@@ -39,8 +45,21 @@ func ConnectToDB(db1 *sql.DB) (*Handler, error) {
 	return handler, nil
 }
 
-func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Methods", "GET")
+func NewDb() (*DbStore, error) {
+	db1, err := sql.Open("sqlserver", "Server=localhost;Database=Users;User Id=sa;Password=yourStrong(!)Password;port=1433;MultipleActiveResultSets=true;TrustServerCertificate=true;")
+	if err != nil {
+		return &DbStore{}, nil
+	}
+
+	dbs := &DbStore{
+		db: db1,
+	}
+
+	return dbs, nil
+}
+
+func (h *Handler) signIn(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	enableCors(w)
 
 	if r.Method == http.MethodOptions {
@@ -48,18 +67,17 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.URL.Path != "/SignIn" {
+	if r.URL.Path != "/user" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
 
-	if r.Method != http.MethodGet {
-		http.Error(w, "This request not GET!", http.StatusMethodNotAllowed)
+	if r.Method != http.MethodPost {
+		http.Error(w, "This request not POST!", http.StatusMethodNotAllowed)
 		return
 	}
 
 	var err error
-
 	var user User
 
 	if err = json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -67,10 +85,14 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	signed, err := h.DBSignIn(user.Login, user.Password)
+	signed, err := h.dbs.SignIn(user.Login, user.Password)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnauthorized)
 		return
+	}
+
+	if signed == false {
+		http.Error(w, "Unsigned", http.StatusUnauthorized)
 	}
 
 	jsonM, err := json.Marshal(signed)
@@ -84,7 +106,7 @@ func (h Handler) SignIn(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) AddUser(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) addUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	enableCors(w)
 
@@ -93,7 +115,8 @@ func (h Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if r.URL.Path != "/AddUser" {
+	//Path == /user
+	if r.URL.Path != "/user" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -111,13 +134,14 @@ func (h Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usere, err := h.DBAddUser(user)
+	//Возвращать как User
+	err = h.dbs.Create(&user)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	jsonM, err := json.Marshal(usere)
+	jsonM, err := json.Marshal([]byte("Added"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -128,11 +152,11 @@ func (h Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) getUsers(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	enableCors(w)
 
-	if r.URL.Path != "/Users" {
+	if r.URL.Path != "/users" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -142,7 +166,7 @@ func (h Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	users, err := h.DBGetUsers()
+	users, err := h.dbs.Get()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -159,7 +183,7 @@ func (h Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) getUserById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "GET")
 	enableCors(w)
 
@@ -169,7 +193,7 @@ func (h Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) != 3 || parts[1] != "GetUserById" {
+	if len(parts) != 3 || parts[1] != "user" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -181,7 +205,7 @@ func (h Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.DbGetUserById(userID)
+	user, err := h.dbs.GetById(userID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -198,7 +222,7 @@ func (h Handler) GetUserById(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) EditUser(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "PUT")
 	enableCors(w)
 
@@ -213,7 +237,7 @@ func (h Handler) EditUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) != 3 || parts[1] != "EditUser" {
+	if len(parts) != 3 || parts[1] != "user" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -228,13 +252,13 @@ func (h Handler) EditUser(w http.ResponseWriter, r *http.Request) {
 
 	user.Id = userID
 
-	editUser, err := h.DBEditUser(user)
+	err := h.dbs.Edit(&user)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	jsonM, err := json.Marshal(editUser)
+	jsonM, err := json.Marshal([]byte("Изменено"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -245,7 +269,7 @@ func (h Handler) EditUser(w http.ResponseWriter, r *http.Request) {
 	w.Write(jsonM)
 }
 
-func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "DELETE")
 	enableCors(w)
 
@@ -255,7 +279,7 @@ func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	parts := strings.Split(r.URL.Path, "/")
-	if len(parts) != 3 || parts[1] != "DeleteUser" {
+	if len(parts) != 3 || parts[1] != "user" {
 		http.Error(w, "404 Page not found!", http.StatusNotFound)
 		return
 	}
@@ -269,13 +293,13 @@ func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	var err error
 
-	userDeleted, err := h.DbDeleteUser(userID)
+	err = h.dbs.Delete(userID)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	jsonM, err := json.Marshal(userDeleted)
+	jsonM, err := json.Marshal([]byte("Deleted"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -287,27 +311,34 @@ func (h Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // DB
-func (h Handler) DBSignIn(login, password string) (tf bool, err error) {
+
+type DbInterface interface {
+	SignIn(login, password string) (tf bool, err error)
+	Get() ([]User, error)
+	GetById(id string) (user User, err error)
+	Create(user *User) (User, error)
+	Edit(user *User) (err error)
+	Delete(id string) error
+}
+
+func (db *DbStore) SignIn(login, password string) (tf bool, err error) {
 	ctx := context.Background()
 
 	tsql := "SELECT Password FROM GoUser WHERE Login = @Login"
 
-	rows, err := h.db.QueryContext(ctx, tsql, sql.Named("Login", login))
+	row := db.db.QueryRowContext(ctx, tsql, sql.Named("Login", login))
 	if err != nil {
 		return false, err
 	}
-	defer rows.Close()
 
 	var Password string
 
-	if rows.Next() {
-		err := rows.Scan(&Password)
-		if err != nil {
-			return false, err
-		}
+	err = row.Scan(&Password)
+	if err != nil {
+		return false, err
 	}
 
-	if err := rows.Err(); err != nil {
+	if err := row.Err(); err != nil {
 		return false, err
 	}
 
@@ -318,17 +349,19 @@ func (h Handler) DBSignIn(login, password string) (tf bool, err error) {
 	return true, nil
 }
 
-func (h Handler) DBGetUsers() ([]User, error) {
+func (db *DbStore) Get() ([]User, error) {
 	ctx := context.Background()
 
 	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser"
 
-	rows, err := h.db.QueryContext(ctx, tsql)
+	rows, err := db.db.QueryContext(ctx, tsql)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
+	//make
+	//limit and offset, Погинация
 	var users []User
 
 	for rows.Next() {
@@ -347,54 +380,45 @@ func (h Handler) DBGetUsers() ([]User, error) {
 	return users, nil
 }
 
-func (h Handler) DbGetUserById(id string) (user User, err error) {
+func (db *DbStore) GetById(id string) (user User, err error) {
 	ctx := context.Background()
 
-	if h.db == nil {
+	if db.db == nil {
 		return user, err
 	}
 
-	err = h.db.PingContext(ctx)
+	err = db.db.PingContext(ctx)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	tsql := "SELECT Id, Login, Password, First_Name, Name, Last_Name, Birthday FROM GoUser WHERE Id = @Id"
 
-	rows, err := h.db.QueryContext(ctx, tsql, sql.Named("Id", id))
+	//Посмотреть возвращение только одной операции row
+	row := db.db.QueryRowContext(ctx, tsql, sql.Named("Id", id))
+
+	err = row.Scan(&user.Id, &user.Login, &user.Password, &user.FirstName, &user.Name, &user.LastName, &user.Birthday)
 	if err != nil {
 		return user, err
 	}
-	defer rows.Close()
-
-	if rows.Next() {
-		err := rows.Scan(&user.Id, &user.Login, &user.Password, &user.FirstName, &user.Name, &user.LastName, &user.Birthday)
-		if err != nil {
-			return user, err
-		}
-	}
 
 	return user, nil
-
 }
 
-func (h Handler) DBAddUser(user User) (users []User, err error) {
+// return err
+func (db *DbStore) Create(user *User) (err error) {
 	ctx := context.Background()
 
-	if h.db == nil {
-		return nil, err
+	if db.db == nil {
+		return err
 	}
 
-	err = h.db.PingContext(ctx)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-
+	//Запрос return @Id. user.Id = @Id
 	tsql := "INSERT INTO GoUser(Login, Password, First_Name, Name, Last_Name, Birthday) VALUES(@Login, @Password, @First_Name, @Name, @Last_Name, @Birthday);"
 
-	stmt, err := h.db.Prepare(tsql)
+	stmt, err := db.db.Prepare(tsql)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 	defer stmt.Close()
 
@@ -408,27 +432,20 @@ func (h Handler) DBAddUser(user User) (users []User, err error) {
 		sql.Named("Birthday", user.Birthday),
 	)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	users = append(users, user)
-
-	return users, nil
+	return nil
 }
 
-func (h Handler) DBEditUser(user User) (users []User, err error) {
+func (db *DbStore) Edit(user *User) (err error) {
 	ctx := context.Background()
-
-	err = h.db.PingContext(ctx)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
 
 	tsql := fmt.Sprintf("UPDATE GoUser SET Login = @Login, Password = @Password, First_Name = @First_Name, Name = @Name, Last_name = @Last_name, Birthday = @Birthday WHERE Id = @Id")
 
-	stmt, err := h.db.Prepare(tsql)
+	stmt, err := db.db.Prepare(tsql)
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 	defer stmt.Close()
 
@@ -443,33 +460,41 @@ func (h Handler) DBEditUser(user User) (users []User, err error) {
 		sql.Named("Birthday", user.Birthday),
 	)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	users = append(users, user)
-
-	return users, nil
+	return nil
 }
 
-func (h Handler) DbDeleteUser(id string) (string, error) {
+func (db *DbStore) Delete(id string) error {
 	ctx := context.Background()
 
-	err := h.db.PingContext(ctx)
+	tsql := fmt.Sprintf("DELETE FROM GoUser WhERE Id = @Id;")
+
+	_, err := db.db.ExecContext(ctx, tsql, sql.Named("Id", id))
 	if err != nil {
-		log.Fatal(err.Error())
+		return err
 	}
 
-	tsql := fmt.Sprintf("DELETE FROM GoUser WHERE Id = @Id;")
-
-	_, err = h.db.ExecContext(ctx, tsql, sql.Named("Id", id))
-	if err != nil {
-		return "", err
-	}
-
-	return "Deleted", nil
+	return nil
 }
 
 func enableCors(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+}
+
+func (h Handler) Routes() *mux.Router {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/login", h.signIn).Methods(http.MethodPost)
+	r.HandleFunc("/user", h.addUser).Methods(http.MethodPost)
+	r.HandleFunc("/users", h.getUsers).Methods(http.MethodGet)
+	r.HandleFunc("/user", h.getUserById).Methods(http.MethodGet)
+	r.HandleFunc("/user", h.editUser).Methods(http.MethodPut)
+	r.HandleFunc("/user", h.deleteUser).Methods(http.MethodDelete)
+
+	log.Println("Server listening on port 8080")
+	//log
+	return r
 }
