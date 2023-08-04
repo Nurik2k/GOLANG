@@ -67,10 +67,7 @@ function displayUsers() {
 function deleteUser(userId) {
   if (confirm("Are you sure you want to delete this user?")) {
     fetch(`${deleteUrl}/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "DELETE", 
     })
       .then(() => displayUsers())
       .catch((error) => console.error("Error deleting user:", error));

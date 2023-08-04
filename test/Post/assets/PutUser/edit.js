@@ -1,4 +1,5 @@
 const baseUrl = "http://localhost:8080/user";
+const editurl = "http://localhost:8080/user";
 
 function getUserById(userId) {
   fetch(`${baseUrl}/${userId}`, {
@@ -34,11 +35,8 @@ function updateUser(userId, editForm) {
     birthday: editForm.birthday.value,
   };
 
-  fetch(`${baseUrl}/${userId}`, {
+  fetch(`${editurl}/${userId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(userData),
   })
     .then(() => window.location.href = "file:///s%3A/GOLANG/test/Post/assets/GetUsers/UsersList.html")

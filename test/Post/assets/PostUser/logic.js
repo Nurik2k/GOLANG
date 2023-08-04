@@ -18,7 +18,7 @@ document.getElementById("AddUser-form").addEventListener("submit", function (eve
         birthday: birthday
       };
 
-    const url = "http://localhost:8080/AddUser";
+    const url = "http://localhost:8080/user";
 
     const options = {
         method: "POST",
