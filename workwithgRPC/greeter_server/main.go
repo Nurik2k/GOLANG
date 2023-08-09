@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"log"
 	"net"
 	pb "workwithgRPC/helloworld"
@@ -11,7 +10,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-var port = flag.Int("port", 8080, "The server port")
+var port = flag.Int("port", 50051, "The server port")
 
 type server struct {
 	pb.UnimplementedGreeterServer
@@ -24,7 +23,7 @@ func (s *server) SayHello(ctx context.Context, r *pb.HelloRequest) (*pb.HelloRes
 func main() {
 	flag.Parse()
 
-	lis, err := net.Listen("tcp", fmt.Sprintf(":", *port))
+	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		log.Fatal(err)
 	}

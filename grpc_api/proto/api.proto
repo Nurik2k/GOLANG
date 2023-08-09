@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "proto/protobuf";
+
+service Api {
+    rpc Get (GetRequest) returns (GetResponse);
+    rpc GetById (PostIdRequest) returns (PostResponse);
+    rpc Post (PostRequest) returns (PostResponse);
+    rpc Put (PutRequest) returns (PostResponse);
+    rpc Delete (PostIdRequest) returns (EmptyResponse);
+}
+
+// Get
+message GetRequest {
+    string user_id = 1;
+    string user_name = 2;
+    string password = 3;
+}
+
+message GetResponse {
+    repeated PostResponse resp = 1;
+}
+
+// Post
+message PostIdRequest {
+    string post_id = 1;
+}
+
+message PostRequest {
+    string user_name = 1;
+    string password = 2;
+}
+
+message PostResponse {
+    string id = 1;
+    string user_id = 2;
+    string user_name = 3;
+    string password = 4;
+}
+
+// Put
+message PutRequest {
+    string post_id = 1;
+    Put post = 2;
+}
+
+message Put {
+    string user_name = 2;
+    string password = 3;
+}
+
+//Delete
+message EmptyResponse {
+}
+
+
