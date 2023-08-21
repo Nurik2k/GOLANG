@@ -1,0 +1,16 @@
+FROM golang:1.21
+
+MAINTAINER Seisenbay Nurzhan (nurkworld534@gmail.com)
+
+RUN go get github.com/Shopify/sarama
+
+ENV KAFKA_HOST dev.localhost
+ENV KAFKA_PORT 9092
+ENV KAFKA_TOPIC senz 
+
+ADD . /app
+WORKDIR /app
+
+RUN go build -o work_with_kafka/consumer src/*.go
+
+ENTRYPOINT [ "/app/docker-entrypoint.sh" ]
