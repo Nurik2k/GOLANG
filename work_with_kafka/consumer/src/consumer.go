@@ -2,70 +2,71 @@ package main
 
 import (
 	"fmt"
+	"github.com/Shopify/sarama"
 	"log"
 	"os"
-	"time"
-
-	"github.com/Shopify/sarama"
-	"github.com/wvanbergen/kafka/consumergroup"
+	"os/signal"
+	"sync"
 )
 
 const (
-	zookeeperConn = "192.168.64.39:2181"
-	cgroup        = "zgroup"
-	topic         = "senz"
+	// Укажите явно IP-адрес и порт брокера Kafka
+	kafkaConn = "localhost:9092"
+	topic     = "test_topic"
 )
 
 func main() {
-	// setup sarama log to stdout
+	// Настройка Sarama логирования
 	sarama.Logger = log.New(os.Stdout, "", log.Ltime)
 
-	// init consumer
-	cg, err := initConsumer()
+	// Создание конфигурации потребителя
+	config := sarama.NewConfig()
+	config.Consumer.Return.Errors = true
+
+	// Создание клиента Kafka
+	client, err := sarama.NewClient([]string{kafkaConn}, config)
 	if err != nil {
-		fmt.Println("Error consumer goup: ", err.Error())
-		os.Exit(1)
+		log.Fatalf("Error creating Kafka client: %v", err)
 	}
-	defer cg.Close()
+	defer client.Close()
 
-	// run consumer
-	consume(cg)
-}
-
-func initConsumer() (*consumergroup.ConsumerGroup, error) {
-	// consumer config
-	config := consumergroup.NewConfig()
-	config.Offsets.Initial = sarama.OffsetOldest
-	config.Offsets.ProcessingTimeout = 10 * time.Second
-
-	// join to consumer group
-	cg, err := consumergroup.JoinConsumerGroup(cgroup, []string{topic}, []string{zookeeperConn}, config)
+	// Создание потребителя
+	consumer, err := sarama.NewConsumerFromClient(client)
 	if err != nil {
-		return nil, err
+		log.Fatalf("Error creating Kafka consumer: %v", err)
 	}
+	defer consumer.Close()
 
-	return cg, err
-}
+	// Указание темы для потребления
+	partitionConsumer, err := consumer.ConsumePartition(topic, 0, sarama.OffsetOldest)
+	if err != nil {
+		log.Fatalf("Error creating partition consumer: %v", err)
+	}
+	defer partitionConsumer.Close()
 
-func consume(cg *consumergroup.ConsumerGroup) {
-	for {
-		select {
-		case msg := <-cg.Messages():
-			// messages coming through chanel
-			// only take messages from subscribed topic
-			if msg.Topic != topic {
-				continue
-			}
+	// Создание канала для обработки сигнала завершения
+	sigterm := make(chan os.Signal, 1)
+	signal.Notify(sigterm, os.Interrupt)
 
-			fmt.Println("Topic: ", msg.Topic)
-			fmt.Println("Value: ", string(msg.Value))
+	// Создание WaitGroup для ожидания завершения работы потребителя
+	var wg sync.WaitGroup
+	wg.Add(1)
 
-			// commit to zookeeper that message is read
-			// this prevent read message multiple times after restart
-			err := cg.CommitUpto(msg)
-			if err != nil {
-				fmt.Println("Error commit zookeeper: ", err.Error())
+	// Основной цикл потребителя
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case msg := <-partitionConsumer.Messages():
+				fmt.Printf("Received message: %s\n", string(msg.Value))
+			case err := <-partitionConsumer.Errors():
+				log.Printf("Error: %s\n", err.Error())
+			case <-sigterm:
+				return
 			}
 		}
-	}
+	}()
+
+	// Ожидание завершения работы потребителя
+	wg.Wait()
 }

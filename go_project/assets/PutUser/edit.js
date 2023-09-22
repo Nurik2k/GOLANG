@@ -39,7 +39,7 @@ function updateUser(userId, editForm) {
     method: "PUT",
     body: JSON.stringify(userData),
   })
-    .then(() => window.location.href = "file:///s%3A/GOLANG/test/Post/assets/GetUsers/UsersList.html")
+    .then(() => window.location.href = "../GetUsers/UsersList.html")
     .catch((error) => console.error("Error updating user:", error));
 }
 

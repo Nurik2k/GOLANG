@@ -21,9 +21,9 @@ type dbStore struct {
 }
 
 type DbInterface interface {
-	SignIn(login, password string) (isSigned bool, err error)
+	SignIn(login, password string) (bool, error)
 	Get(limit, offset int) ([]User, error)
-	GetById(id string) (user User, err error)
+	GetById(id string) (User, error)
 	Create(user *User) error
 	Edit(user *User) error
 	Delete(id string) error

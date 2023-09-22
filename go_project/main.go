@@ -9,7 +9,7 @@ import (
 
 func main() {
 	//Нужно добавить нрвую сущность Repository or DBStore которая, работает с бд +
-	db, err := database.NewDb()
+	db, _ := database.NewDb()
 
 	h, err := handler.NewHandler(db)
 	if err != nil {

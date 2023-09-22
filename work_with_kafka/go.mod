@@ -1,4 +1,4 @@
-module consumer
+module work-with-kafka
 
 go 1.21.0
 

@@ -220,6 +220,7 @@ func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 	userId = parts[2]
 
 	var user database.User
+
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
